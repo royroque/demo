@@ -1,0 +1,18 @@
+begin
+  require 'rake'
+  require 'rspec/core/rake_task'
+
+  ## SAMPLE RAKE TASK
+  desc "Run Demo 1 Test Suite"  
+  RSpec::Core::RakeTask.new("#{(product='demo1').to_sym}") do |t|
+    STDOUT.sync = true
+    t.fail_on_error = false    
+    t.pattern = Dir.glob("spec/**/#{product}_spec.rb")
+    t.rspec_opts = "--format documentation  --out ./logs/#{product}.log"
+  end
+    
+  task :default => [:demo1]
+  
+rescue LoadError
+  puts "rspec available"
+end
