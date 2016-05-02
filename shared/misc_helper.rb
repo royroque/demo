@@ -120,7 +120,7 @@ module MiscHelpers
   end
   
   def set_if_kv_exists(str)
-    #ie. set_if_kv_exists("text_field_parent_label('Doing Business As',@customer[:doing_business_as])")
+    #ie. set_if_kv_exists(" text_field_parent_label('Doing Business As',@customer[:doing_business_as]) ")
     #becomes "@customer[:doing_business_as]" after split
     split_str=str.split(',')[-1].split(')')[0]
     

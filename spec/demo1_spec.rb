@@ -5,14 +5,8 @@ require_relative '../lib/demo1_helper'
 
 describe "Component: Demo 1" do
 
-  before(:all) do
-    @profile=load_profile_from_config_yml('profiles.yml','user1')
-    open_browser
-  end
-
-  after(:all) do 
-    close_all_windows
-  end
+  before(:all){ open_browser }
+  after(:all) { close_all_windows }
 
   it "Story 1" do
     browser.goto('http://google.com')
