@@ -18,3 +18,7 @@ Demo RSPEC Skeleton
 ## JENKINS: set build command as follows:
     cd ./scripts/
     ruby run_rake_tests.rb
+
+
+
+TEST ONLY
