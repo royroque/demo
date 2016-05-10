@@ -97,6 +97,30 @@ module ElementLocatorHelper
     end
   end
   
+  def combobox_p2_label (label_name, text_pattern)
+    browser.label(:text => /#{label_name}/).wait_until_present
+    element=browser.label(:text => /#{label_name}/).parent.parent.text_field
+    if element.value != text_pattern
+      element.clear
+      element.click
+      sleep 1
+      ## AUTO-COMPLETE ; ENTER THE FIRST THREE CHARACTERS ONLY
+      element.send_keys text_pattern[0] , text_pattern[1] , text_pattern[2]
+      browser.li(:text=>/#{text_pattern.split('').join('.*')}/).when_present.click rescue nil  
+      sleep 2
+      wait_while_loading_gif      
+    end      
+    ## AUTO-COMPLETE DID NOT WORK - HARD CODING VALUE INSTEAD ; NOT IDEAL BUT WORKAROUND
+    element=browser.label(:text => /#{label_name}/).parent.parent.text_field
+    if element.value != text_pattern
+      element.clear
+      element.set text_pattern
+      sleep 2
+      element.send_keys :arrow_down,:enter
+      wait_while_loading_gif
+    end
+  end
+  
   
   ## SELECT LIST
   def select_list_id(label_name, text_pattern)

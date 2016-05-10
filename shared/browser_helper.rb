@@ -6,7 +6,7 @@ module BrowserHelper
     if type != ''
       browser_type = type
     elsif defined? @profile
-      if @blah.has_key?
+      if @profile.has_key? :browser_type
         if ! @profile[:browser_type].empty?
           browser_type = @profile[:browser_type]
         end
@@ -27,30 +27,36 @@ module BrowserHelper
     clean_up_temp_local_settings  
     if browser_type == 'ff' || browser_type == 'firefox' || browser_type == :ff || browser_type == :firefox
       ENV["WATIR_DRIVER"] = "webdriver"
-	  download_directory = File.expand_path(File.dirname(__FILE__) + '/../downloads/')
+      download_directory = File.expand_path(File.dirname(__FILE__)+"/../downloads/")
+      download_directory.gsub!("/", "\\") if Selenium::WebDriver::Platform.windows?
       profile = Selenium::WebDriver::Firefox::Profile.new
       profile['browser.download.lastDir'] = download_directory
       profile['browser.download.folderList'] = 2
       profile['browser.download.dir'] = download_directory
       profile['browser.download.manager.showWhenStarting'] = false
       profile['browser.helperApps.alwaysAsk.force'] = false
-      profile['browser.helperApps.neverAsk.openFile'] = "text/csv,application/pdf,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
-      profile['browser.helperApps.neverAsk.saveToDisk'] = "text/csv,application/pdf,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+      profile['browser.helperApps.neverAsk.openFile'] = "text/csv,application/pdf,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet,application/vnd.openxmlformats-officedocument.wordprocessingml.document"
+      profile['browser.helperApps.neverAsk.saveToDisk'] = "text/csv,application/pdf,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet,application/vnd.openxmlformats-officedocument.wordprocessingml.document"
       profile['pdfjs.disabled'] = true
-      @browser = Watir::Browser.new :firefox, :profile => profile      
+      @browser = Watir::Browser.new :firefox, :profile => profile 
+      @browser.window.move_to(0, 0)      
+      @browser.window.resize_to(1040,720)      
     elsif browser_type == 'internet_explorer' || browser_type == 'ie' || browser_type == :ie || browser_type == :internet_explorer
       ENV["WATIR_DRIVER"] = "classic" #to ensure that watir-classic is used instead of webdriver-IE driver
       #ENV["WATIR_DRIVER"] = "webdriver"
-      chromedriver_directory = File.join(File.absolute_path(File.dirname(__FILE__)),"bin")
-      ENV['PATH'] = "#{ENV['PATH']}#{File::PATH_SEPARATOR}#{chromedriver_directory}"
+      iedriver_directory = File.join(File.absolute_path(File.dirname(__FILE__)),"bin")
+      ENV['PATH'] = "#{ENV['PATH']}#{File::PATH_SEPARATOR}#{iedriver_directory}"
 
       @browser = Watir::Browser.new(:internet_explorer)
+      @browser.window.move_to(0, 0)      
+      @browser.window.resize_to(1040,720)
     elsif browser_type == 'chrome' || browser_type == :chrome
       ENV["WATIR_DRIVER"] = "webdriver"
       chromedriver_directory = File.join(File.absolute_path(File.dirname(__FILE__)),"bin")
       ENV['PATH'] = "#{ENV['PATH']}#{File::PATH_SEPARATOR}#{chromedriver_directory}"
-      download_directory = File.expand_path(File.dirname(__FILE__) + '/../downloads/')
-      
+      download_directory = File.expand_path(File.dirname(__FILE__)+"/../downloads/")
+      download_directory.gsub!("/", "\\") if Selenium::WebDriver::Platform.windows?
+            
       prefs = {
         'download' => {
           'default_directory' => download_directory,
@@ -68,6 +74,8 @@ module BrowserHelper
       caps = Selenium::WebDriver::Remote::Capabilities.chrome
       caps['chromeOptions'] = {'prefs' => prefs}
       @browser = Watir::Browser.new :chrome, :desired_capabilities => caps
+      @browser.window.move_to(0, 0)      
+      @browser.window.resize_to(1040,720)      
     end
   end  
   
