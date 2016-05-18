@@ -8,10 +8,10 @@ begin
     t.fail_on_error = false
     product = 'demo'
     t.pattern = Dir.glob("spec/**/#{product}_spec.rb")
-    #t.rspec_opts = "--format documentation  --out ./logs/#{product}.log"
-    t.rspec_opts = "--format html  --out ./logs/#{product}.html"  
+     #t.rspec_opts = "--format documentation  --out ./logs/#{product}.log"
+    t.rspec_opts = "--color --tty --format documentation --format html --out ./logs/#{product}.html --require yarjuf --format JUnit  --out ./logs/#{product}.xml"
   end
- 
+  
   task :default => [:demo]
   
 rescue LoadError

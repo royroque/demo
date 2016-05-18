@@ -1,18 +1,23 @@
 module BrowserHelper
   attr_accessor :browser, :headless
     
+  ## ORDER:
+  ##1-PARAM (if passed) , 
+  ##2-config/env_cfg/ENV['BROWSER_TYPE'] (if called) , 
+  ##3-@profile[:browser_type] (if read before open_browser)
   def open_browser (type = '')
-    ## OVERWRITE BROWSER_TYPE IN THIS ORDER: argument passed/ @profile[:browser_type] / ENV['BROWSER_TYPE']
     if type != ''
       browser_type = type
+    elsif ! ENV['BROWSER_TYPE'].nil?
+      ## DEFINED AS JENKINS ENV OR BY READING config/env_cfg.rb
+      browser_type = ENV['BROWSER_TYPE'] 
     elsif defined? @profile
+      ## ONLY KNOWN IF @profile is loaded before open_browser
       if @profile.has_key? :browser_type
         if ! @profile[:browser_type].empty?
           browser_type = @profile[:browser_type]
         end
       end
-    elsif ! ENV['BROWSER_TYPE'].nil?
-      browser_type = ENV['BROWSER_TYPE']     
     else
       browser_type = 'ff'
     end
@@ -40,7 +45,7 @@ module BrowserHelper
       profile['pdfjs.disabled'] = true
       @browser = Watir::Browser.new :firefox, :profile => profile 
       @browser.window.move_to(0, 0)      
-      @browser.window.resize_to(1040,720)      
+      @browser.window.resize_to(1280,720)      
     elsif browser_type == 'internet_explorer' || browser_type == 'ie' || browser_type == :ie || browser_type == :internet_explorer
       ENV["WATIR_DRIVER"] = "classic" #to ensure that watir-classic is used instead of webdriver-IE driver
       #ENV["WATIR_DRIVER"] = "webdriver"
@@ -49,7 +54,7 @@ module BrowserHelper
 
       @browser = Watir::Browser.new(:internet_explorer)
       @browser.window.move_to(0, 0)      
-      @browser.window.resize_to(1040,720)
+      @browser.window.resize_to(1280,720)
     elsif browser_type == 'chrome' || browser_type == :chrome
       ENV["WATIR_DRIVER"] = "webdriver"
       chromedriver_directory = File.join(File.absolute_path(File.dirname(__FILE__)),"bin")
@@ -93,6 +98,11 @@ module BrowserHelper
     
     #headless
     headless.destroy if ENV['HEADLESS'] == "true" && RbConfig::CONFIG['host_os'] =~ /linux/
+  end
+  
+  def take_screenshot
+    filename = File.expand_path(File.dirname(__FILE__)+"/../logs/#{Time.now.strftime('%m%d%y_%H%M%S')}.png")
+    browser.screenshot.save filename
   end
   
 end

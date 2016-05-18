@@ -2,7 +2,6 @@
 Demo RSPEC Skeleton
 
 
-
 ## NEW TEST SUITE:
     SPEC: (replace demo1 in all cases below)
         COPY/MODIFY: spec/demo1_spec.rb
@@ -11,14 +10,12 @@ Demo RSPEC Skeleton
         COPY/MODIFY: lib/demo1_helper.rb
     
 ## RAKE: 
-    RAKEFILE: (replace demo1 in all cases below)
-        RSpec::Core::RakeTask.new("#{(product='demo1').to_sym}") do |t|
-        task :default => [:demo1]
+    RAKEFILE: (copy existting and replace demo1 in all cases below)
+       
   
 ## JENKINS: set build command as follows:
     cd ./scripts/
     ruby run_rake_tests.rb
-
 
 
 TEST ONLY

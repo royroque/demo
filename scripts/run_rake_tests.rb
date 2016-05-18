@@ -1,7 +1,14 @@
+require_relative '../config/env_cfg'
+
 puts "-----Starting Automation Test Execution-----"
 
-rake_bin_dir="C:/Ruby21-x64/bin"
-component = ''    ;#demo, smoke, wizard, etc,...
+rake_bin_dir="C:/Ruby22-x64/bin"
+if ENV['COMPONENT'] == 'default'
+  component = '' 
+else
+  component = ENV['COMPONENT']
+end
+
 
 log_dir=File.expand_path(File.dirname(__FILE__) + "/../logs/")
 rakefile_dir=File.expand_path(File.dirname(__FILE__) + "/../")
@@ -15,6 +22,10 @@ Dir.glob("#{log_dir}/*.log").each do |f|
 end
 
 Dir.glob("#{log_dir}/*.html").each do |f| 
+  File.delete(f)
+end
+
+Dir.glob("#{log_dir}/*.png").each do |f| 
   File.delete(f)
 end
 
@@ -34,7 +45,7 @@ if Dir.glob("#{log_dir}/*.html").size > 0
 
   #Dir.glob("#{log_dir}/*.log").each do |logname|
   Dir.glob("#{log_dir}/*.html").each do |logname|
-    puts "Checking log/html for status: '#{logname}'"
+    puts "\nChecking log/html for status: '#{logname}'"
     #if desc = open(logname).grep(/Failure\/Error/)
     if desc = open(logname).grep(/failed_spec_name/)
       unless desc.empty?

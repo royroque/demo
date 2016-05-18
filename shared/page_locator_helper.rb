@@ -24,6 +24,7 @@ module ElementLocatorHelper
     browser.label(:text => /#{label_name}/).wait_until_present
     element=browser.label(:text => /#{label_name}/).parent.text_field
     if element.value != text_pattern
+      element.clear
       element.set text_pattern
     end
   end
@@ -34,6 +35,7 @@ module ElementLocatorHelper
     browser.text_field(:id => /#{label_name}/).wait_until_present
     element=browser.text_field(:id => /#{label_name}/)
     if element.value !~ /#{date.split('').join('.*')}/
+      element.clear
       element.send_keys date, :tab
     end
   end
@@ -61,35 +63,46 @@ module ElementLocatorHelper
   
   ## (TEXT FIELD) PHONE NUMBER
   def phone_number_parent_label(label_name , phone_num)
+    ##1 text field for (012)345-6789
     phone_num.gsub!('-','')
     phone_num.gsub!('(','')
     phone_num.gsub!(')','')
     browser.label(:text => /#{label_name}/).wait_until_present
     element=browser.label(:text => /#{label_name}/).parent.text_field
+    element.wait_until_present
     if element.value !~ /#{phone_num.split('').join('.*')}/
       element.set phone_num
     end
   end
-
+ 
+  def phone_2fields_parent_label(label_name , phone_num)
+    #2 text fields: (012) and 345-6789
+    phone_num.gsub!('-','')
+    phone_num.gsub!('(','')
+    phone_num.gsub!(')','')
+    browser.label(:text => /#{label_name}/).wait_until_present
+    browser.label(:text => /#{label_name}/).parent.text_fields[0].set  phone_num[0..2]
+    browser.label(:text => /#{label_name}/).parent.text_fields[1].set phone_num[3..9]
+  end
   
   ## COMBOBOX
   def combobox_parent_label (label_name, text_pattern)
     browser.label(:text => /#{label_name}/).wait_until_present
     element=browser.label(:text => /#{label_name}/).parent.text_field
     if element.value != text_pattern
-      element.clear
       element.click
       sleep 1
       ## AUTO-COMPLETE ; ENTER THE FIRST THREE CHARACTERS ONLY
+      element.clear
       element.send_keys text_pattern[0] , text_pattern[1] , text_pattern[2]
+      #sleep 2
       browser.li(:text=>/#{text_pattern.split('').join('.*')}/).when_present.click rescue nil  
-      sleep 2
       wait_while_loading_gif      
     end      
     ## AUTO-COMPLETE DID NOT WORK - HARD CODING VALUE INSTEAD ; NOT IDEAL BUT WORKAROUND
     element=browser.label(:text => /#{label_name}/).parent.text_field
     if element.value != text_pattern
-      element.clear
+      #element.clear
       element.set text_pattern
       sleep 2
       element.send_keys :arrow_down,:enter
@@ -126,6 +139,7 @@ module ElementLocatorHelper
   def select_list_id(label_name, text_pattern)
     element=browser.select_list(:id => /#{label_name}/)
     unless element.selected?(text_pattern)
+      sleep 1
       element.select text_pattern
       wait_while_loading_gif
     end
@@ -135,6 +149,7 @@ module ElementLocatorHelper
     browser.label(:text => /#{label_name}/).wait_until_present
     element=browser.label(:text => /#{label_name}/).parent.select_list
     unless element.selected?(text_pattern)
+      sleep 1
       element.select text_pattern
       wait_while_loading_gif
     end
@@ -144,6 +159,7 @@ module ElementLocatorHelper
     browser.label(:text => /#{label_name}/).wait_until_present
     element=browser.label(:text => /#{label_name}/).parent.select_list
     unless element.selected?(text_pattern)
+      sleep 1
       element.select text_pattern
       wait_while_loading_gif
     end
