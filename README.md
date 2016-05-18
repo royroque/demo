@@ -22,5 +22,5 @@ Demo RSPEC Skeleton
     cd ./scripts/
     ruby run_rake_tests.rb
     (CREATE a CHOICE PARAMETER and enter default followed by list of component listed in rakefile)
-    (ARCHIVE logs/*.html,logs/*.xml)
+    (ARCHIVE Artifact:  logs/*.html,logs/*.xml,logs/*.png)
     (ADD POSTBUILD: Publish JUnit test result report: logs/*.xml)
