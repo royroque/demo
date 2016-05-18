@@ -15,7 +15,7 @@ Demo RSPEC Skeleton
         COPY/MODIFY: lib/demo1_helper.rb
     
 ## RAKE: 
-    RAKEFILE: (copy existting and replace demo1 in all cases below)
+    RAKEFILE: (copy existing and replace demo1 in all cases below)
          
 ## JENKINS: 
     (ADD BUILD STEP: Execute batch/shell)
