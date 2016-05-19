@@ -6,6 +6,7 @@ Demo RSPEC Skeleton
 	  it "test story: name" do
 	    execute_test_case_1
 	  end
+
 	  
 ## NEW TEST SUITE:
     SPEC: (replace demo1 in all cases below)
