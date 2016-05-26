@@ -1,21 +1,14 @@
 module MiscHelpers
 
   def load_profile_from_config_yml(filename,profile_name)
-    YAML.load_file(File.expand_path(File.dirname(__FILE__)+"/../config/#{filename}"))["#{profile_name}"]
+    YAML.load_file(File.expand_path(File.dirname(__FILE__)+"/../config/yml/#{filename}"))["#{profile_name}"]
   end
   
-  def take_screenshot_if_test_failed
-    #call method in teardown before cleanup and/or close_all_windows
-    unless @test_passed
-      if RbConfig::CONFIG['host_os'] =~ /mswin|mingw/
-        screenshot_filename = 'C:/Temp/watir/screenshots/' + Time.now.strftime('%m%d%y_%H%M%S') + '.png'
-      elsif RbConfig::CONFIG['host_os'] =~ /linux/
-        screenshot_filename = '/tmp/watir/screenshots/' + Time.now.strftime('%m%d%y_%H%M%S') + '.png'
-      end
-
-      FileUtils.mkdir_p(File.dirname(screenshot_filename)) unless File.exists? File.dirname(screenshot_filename)
-      browser.screenshot.save screenshot_filename
-    end
+  def take_screenshot
+    puts __method__
+    filename = File.expand_path(File.dirname(__FILE__)+"/../logs/#{Time.now.strftime('%m%d%y_%H%M%S')}.png")
+    browser.screenshot.save filename
+    sleep 1
   end
   
   def attach_to_window id, pattern

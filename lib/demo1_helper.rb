@@ -1,3 +1,5 @@
+require_relative '../lib/generic_helper'
+
 module Demo1Helper
   
   def execute_test_case_1

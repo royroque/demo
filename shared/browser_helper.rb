@@ -3,21 +3,13 @@ module BrowserHelper
     
   ## ORDER:
   ##1-PARAM (if passed) , 
-  ##2-config/env_cfg/ENV['BROWSER_TYPE'] (if called) , 
-  ##3-@profile[:browser_type] (if read before open_browser)
+  ##2-config/env_cfg/ENV['BROWSER_TYPE'] (if called) 
   def open_browser (type = '')
     if type != ''
       browser_type = type
     elsif ! ENV['BROWSER_TYPE'].nil?
       ## DEFINED AS JENKINS ENV OR BY READING config/env_cfg.rb
-      browser_type = ENV['BROWSER_TYPE'] 
-    elsif defined? @profile
-      ## ONLY KNOWN IF @profile is loaded before open_browser
-      if @profile.has_key? :browser_type
-        if ! @profile[:browser_type].empty?
-          browser_type = @profile[:browser_type]
-        end
-      end
+      browser_type = ENV['BROWSER_TYPE']    
     else
       browser_type = 'ff'
     end
@@ -40,8 +32,8 @@ module BrowserHelper
       profile['browser.download.dir'] = download_directory
       profile['browser.download.manager.showWhenStarting'] = false
       profile['browser.helperApps.alwaysAsk.force'] = false
-      profile['browser.helperApps.neverAsk.openFile'] = "text/csv,application/pdf,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet,application/vnd.openxmlformats-officedocument.wordprocessingml.document"
-      profile['browser.helperApps.neverAsk.saveToDisk'] = "text/csv,application/pdf,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet,application/vnd.openxmlformats-officedocument.wordprocessingml.document"
+      profile['browser.helperApps.neverAsk.openFile'] = "text/csv,application/pdf,application/vnd.ms-excel,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet,application/vnd.openxmlformats-officedocument.wordprocessingml.document"
+      profile['browser.helperApps.neverAsk.saveToDisk'] = "text/csv,application/pdf,application/vnd.ms-excel,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet,application/vnd.openxmlformats-officedocument.wordprocessingml.document"
       profile['pdfjs.disabled'] = true
       @browser = Watir::Browser.new :firefox, :profile => profile 
       @browser.window.move_to(0, 0)      
@@ -80,7 +72,7 @@ module BrowserHelper
       caps['chromeOptions'] = {'prefs' => prefs}
       @browser = Watir::Browser.new :chrome, :desired_capabilities => caps
       @browser.window.move_to(0, 0)      
-      @browser.window.resize_to(1040,720)      
+      @browser.window.resize_to(1280,720)      
     end
   end  
   
@@ -100,10 +92,7 @@ module BrowserHelper
     headless.destroy if ENV['HEADLESS'] == "true" && RbConfig::CONFIG['host_os'] =~ /linux/
   end
   
-  def take_screenshot
-    filename = File.expand_path(File.dirname(__FILE__)+"/../logs/#{Time.now.strftime('%m%d%y_%H%M%S')}.png")
-    browser.screenshot.save filename
-  end
+
   
 end
 include BrowserHelper
