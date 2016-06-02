@@ -29,6 +29,10 @@ Dir.glob("#{log_dir}/*.png").each do |f|
   File.delete(f)
 end
 
+Dir.glob("#{log_dir}/*.xml").each do |f| 
+  File.delete(f)
+end
+
 ### Run RAKE
 Dir.chdir rakefile_dir
 if component == ''
