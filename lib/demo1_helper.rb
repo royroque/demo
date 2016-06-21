@@ -1,22 +1,24 @@
 require_relative '../lib/generic_helper'
+#include RSpec::Matchers    ;#needed if using rspec expect in IRB
 
 module Demo1Helper
   
   def execute_test_case_1
     puts __method__    
+    
+    ## check/assert whether browser.url value contains the word google
     expect(browser.url).to match(/google/)    
+    
+    raise 'match error occured' unless browser.url =~ /google/
+    
+    if browser.url =~ /google/
+      puts 'url is correct'
+    else
+      puts 'url is NOT correct'
+      raise 'match error occured'
+    end
   end
   
-  def execute_test_case_2
-    puts __method__    
-    expect(browser.url).to match(/yahoo/)    
-  end
-  
-  def execute_test_case_3
-    puts __method__
-    pending("this test case in still work-in-progress")
-    fail
-  end
   
 end
 include Demo1Helper

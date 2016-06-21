@@ -3,3 +3,4 @@
 **/logs/*.xml
 **/logs/*.png
 **/*.sw*
+**/*sublime*

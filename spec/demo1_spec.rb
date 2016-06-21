@@ -14,20 +14,6 @@ describe "Suite Demo" do
     browser.goto(@profile[:url])
     execute_test_case_1
   end
-  
-  it "test story 2" do
-    @profile=load_profile_from_config_yml('profiles.yml','user1')
-    
-    browser.goto(@profile[:url])    
-	execute_test_case_2
-  end
-  
-  it "test story 2" do
-    @profile=load_profile_from_config_yml('profiles.yml','user1')
-    
-    browser.goto(@profile[:url])    
-	execute_test_case_3
-  end
 
 end
 

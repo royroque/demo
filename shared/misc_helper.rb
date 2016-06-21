@@ -125,13 +125,13 @@ module MiscHelpers
   end
  
   def set_if_kv_yes(str)
-    #ie."checkbox_parent_label_set('OFAC Hit'),@customer[:ofac_hit])"
+    #ie."checkbox_parent_label_set('OFAC Hit',@customer[:ofac_hit])"
     #become "@customer[:ofac_hit]) after split
     split_str=str.split(',')[-1].split(')')[0]
     
     if ! split_str.nil? 
       if eval(split_str) =~ /YES/i
-        eval(str.split(',')[0])
+        eval(str.split(',')[0].delete('\(').delete('\)'))
       end
     end 
   end
