@@ -4,14 +4,17 @@ require_relative '../lib/demo1_helper'
 
 describe "Suite Demo" do
 
-  before(:all){ open_browser }
-  after(:all) { close_all_windows }
-  after(:each) { |tc| take_screenshot if (tc.exception != nil || tc.instance_variable_get("@exception")) != nil }
+  before(:each) do 
+    open_browser
+    initialize_instance_variables
+  end
+  after(:each) do |tc|
+    take_screenshot if (tc.exception != nil || tc.instance_variable_get("@exception")) != nil
+    close_all_windows
+  end
 
   it "test story 1" do
-    @profile=load_profile_from_config_yml('profiles.yml','user1')
-    
-    browser.goto(@profile[:url])
+    login_to_url
     execute_test_case_1
   end
 

@@ -95,56 +95,59 @@ module ElementLocatorHelper
       element.clear
       element.send_keys text_pattern[0],text_pattern[1],text_pattern[2]
       wait_while_loading_gif
-      browser.li(:text=>/#{text_pattern.split('').join('.*')}/).when_present.click rescue nil
+      browser.li(:text=>/#{text_pattern.split('').join('.*')}/i).when_present.click rescue nil
       wait_while_loading_gif
     end
     ## AUTO-COMPLETE DID NOT WORK - HARD CODING VALUE INSTEAD ; NOT IDEAL BUT WORKAROUND
-    element=browser.text_field(:id=>/#{label_name}/)
+    #element=browser.text_field(:id=>/#{label_name}/)
     if element.value != text_pattern
       element.set text_pattern
-      wait_while_loading_gif
-      browser.li(:text=>/#{text_pattern.split('').join('.*')}/).when_present.click rescue nil
+      wait_while_loading_gif      
+      sleep 30
+      browser.li(:text=>/#{text_pattern.split('').join('.*')}/i).when_present.click rescue nil
       wait_while_loading_gif
     end
   end
    
   def combobox_parent_label (label_name, text_pattern)
     browser.label(:text => /#{label_name}/).wait_until_present
-    element=browser.label(:text => /#{label_name}/).parent.text_field
-    if element.value != text_pattern
+    element=browser.label(:text => /#{label_name}/)
+    if element.parent.text_field.value != text_pattern
       ## AUTO-COMPLETE ; ENTER THE FIRST THREE CHARACTERS ONLY
-      element.clear
-      element.send_keys text_pattern[0],text_pattern[1],text_pattern[2]
+      element.parent.text_field.clear
+      element.parent.text_field.send_keys text_pattern[0],text_pattern[1],text_pattern[2]
       wait_while_loading_gif
-      browser.li(:text=>/#{text_pattern.split('').join('.*')}/).when_present.click rescue nil
+      browser.li(:text=>/#{text_pattern.split('').join('.*')}/i).when_present.click rescue nil
       wait_while_loading_gif
     end
     ## AUTO-COMPLETE DID NOT WORK - HARD CODING VALUE INSTEAD ; NOT IDEAL BUT WORKAROUND
-    element=browser.label(:text => /#{label_name}/).parent.text_field
-    if element.value != text_pattern
-      element.set text_pattern
+    #element=browser.label(:text => /#{label_name}/)
+    if element.parent.text_field.value != text_pattern
+      element.parent.text_field.set text_pattern
       wait_while_loading_gif
-      browser.li(:text=>/#{text_pattern.split('').join('.*')}/).when_present.click rescue nil
+      sleep 30
+      browser.li(:text=>/#{text_pattern.split('').join('.*')}/i).when_present.click rescue nil
       wait_while_loading_gif
     end
   end
   
   def combobox_p2_label (label_name, text_pattern)
     browser.label(:text => /#{label_name}/).wait_until_present
-    element=browser.label(:text => /#{label_name}/).parent.parent.text_field
-    if element.value != text_pattern
+    element=browser.label(:text => /#{label_name}/)
+    if element.parent.parent.text_field.value != text_pattern
       ## AUTO-COMPLETE ; ENTER THE FIRST THREE CHARACTERS ONLY
-      element.clear
-      element.send_keys text_pattern[0],text_pattern[1],text_pattern[2]
+      element.parent.parent.text_field.clear
+      element.parent.parent.text_field.send_keys text_pattern[0],text_pattern[1],text_pattern[2]
       wait_while_loading_gif
       browser.li(:text=>/#{text_pattern.split('').join('.*')}/).when_present.click rescue nil
       wait_while_loading_gif
     end
     ## AUTO-COMPLETE DID NOT WORK - HARD CODING VALUE INSTEAD ; NOT IDEAL BUT WORKAROUND
-    element=browser.label(:text => /#{label_name}/).parent.parent.text_field
-    if element.value != text_pattern
-      element.set text_pattern
-      wait_while_loading_gif
+    #element=browser.label(:text => /#{label_name}/)
+    if element.parent.parent.text_field.value != text_pattern
+      element.parent.parent.text_field.set text_pattern
+      wait_while_loading_gif      
+      sleep 30
       browser.li(:text=>/#{text_pattern.split('').join('.*')}/).when_present.click rescue nil
       wait_while_loading_gif
     end
