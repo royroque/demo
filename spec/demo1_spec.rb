@@ -9,7 +9,7 @@ describe "Suite Demo" do
     initialize_instance_variables
   end
   after(:each) do |tc|
-    take_screenshot if (tc.exception != nil || tc.instance_variable_get("@exception")) != nil
+    take_screenshot if (tc.exception != nil || tc.instance_variable_get("@exception") != nil )
     close_all_windows
   end
 
