@@ -10,6 +10,8 @@ module LoadEnvVar
   #ENV['BROWSER_TYPE'] ||= 'internet_explorer' 
   ENV['BROWSER_TYPE'] ||= 'firefox'
 
+  ## VERBOSE: CAPTURE TIMING WHEN SPECIFIED
+  ENV['VERBOSE_TIMING'] ||= 'YES'
   
 end
 include LoadEnvVar

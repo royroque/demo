@@ -62,7 +62,7 @@ module BrowserHelper
           'extensions_to_open' => '',
         },
         'profile' => {
-          #'default_content_settings' => {'multiple-automatic-downloads' => 1}, #for chrome version olde ~42
+          #'default_content_settings' => {'multiple-automatic-downloads' => 1}, #for chrome version older ~42
           'default_content_setting_values' => {'automatic_downloads' => 1}, #for chrome newer 46
           'password_manager_enabled' => false,
           'gaia_info_picture_url' => true,
