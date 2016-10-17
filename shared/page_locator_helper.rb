@@ -102,7 +102,7 @@ module ElementLocatorHelper
       element.send_keys [:control,'a'], :backspace
       element.set text_pattern
       wait_while_loading_gif
-      browser.li(:text=>/#{text_pattern.split('').join('.*')}/i).when_present.click rescue nil
+      browser.li(:text=>/^#{text_pattern.split('').join('.*')}/i).when_present.click rescue nil
       wait_while_loading_gif
     end
   end
@@ -114,7 +114,7 @@ module ElementLocatorHelper
       element.send_keys [:control,'a'], :backspace
       element.set text_pattern
       wait_while_loading_gif
-      browser.li(:text=>/#{text_pattern.split('').join('.*')}/i).when_present.click rescue nil
+      browser.li(:text=>/^#{text_pattern.split('').join('.*')}/i).when_present.click rescue nil
       wait_while_loading_gif
     end    
   end
@@ -126,7 +126,7 @@ module ElementLocatorHelper
       element.parent.text_field.send_keys [:control,'a'], :backspace
       element.parent.text_field.set text_pattern
       wait_while_loading_gif
-      browser.li(:text=>/#{text_pattern.split('').join('.*')}/i).when_present.click rescue nil
+      browser.li(:text=>/^#{text_pattern.split('').join('.*')}/i).when_present.click rescue nil
       wait_while_loading_gif
     end
     wait_while_loading_gif
@@ -139,7 +139,7 @@ module ElementLocatorHelper
       element.parent.parent.text_field.send_keys [:control,'a'], :backspace
       element.parent.parent.text_field.set text_pattern
       wait_while_loading_gif
-      browser.li(:text=>/#{text_pattern.split('').join('.*')}/).when_present.click rescue nil
+      browser.li(:text=>/^#{text_pattern.split('').join('.*')}/).when_present.click rescue nil
       wait_while_loading_gif
     end
   end
@@ -382,6 +382,32 @@ module ElementLocatorHelper
     wait_while_loading_gif
     browser.link(:text=>/#{action}/).when_present.flash
     browser.link(:text=>/#{action}/).fire_event :click
+    wait_while_loading_gif
+  end
+
+
+  ## Rich Text Format (rtf)
+  def rtf_parent_label(label_name,comment,el=browser)
+    ##i.e. comment=@risk_mitigant[:comments_source]
+    el.label(:text=>/#{label_name}/).parent.div(:class=>'richTxtArea').click
+    wait_while_loading_gif
+    phrase="CKEDITOR.instances.richTxt.setData('#{comment}'); "
+    el.execute_script( "#{phrase}")
+    sleep 1
+
+    el.span(:class=>/ui-button/,:text=>/Ok/).parent.fire_event('onclick')
+    wait_while_loading_gif
+  end
+
+  def rtf_div_id(label_name,comment,el=browser)
+    ##i.e. comment=@risk_mitigant[:comments_source]
+    el.div(:id=> /#{label_name}/ , :class=>'richTxtArea').click
+    wait_while_loading_gif
+    phrase="CKEDITOR.instances.richTxt.setData('#{comment}'); "
+    el.execute_script( "#{phrase}")
+    sleep 1
+
+    el.span(:class=>/ui-button/,:text=>/Ok/).parent.fire_event('onclick')
     wait_while_loading_gif
   end
 
