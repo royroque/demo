@@ -1,6 +1,9 @@
 begin
   require 'rake'
-  require 'rspec/core/rake_task'
+  require 'rspec/core/rake_task'  
+  #require 'parallel_tests'
+  #require "parallel_tests/tasks"
+  #require 'parallel_tests/cli'
   
   desc "Run Template Test Suite"
   RSpec::Core::RakeTask.new(:template) do |t|
@@ -13,6 +16,16 @@ begin
   
   task :default => [:template]
   
+=begin 
+  ##To run parallel_test ; run rake "parallel:spec[2]"
+  desc "Parallel spec tests"
+  task :parallel_spec do
+    #Rake::Task[:spec_prep].invoke
+    ParallelTests::CLI.new.run('--type test -t rspec spec'.split)
+    #Rake::Task[:spec_clean].invoke
+  end
+=end
+
 rescue LoadError
   puts "rspec available"
 end

@@ -1,22 +1,7 @@
-default: &default
-  # :url: 'https://qa.provapps.com/ProvAppCLWeb/'
-  # :url: 'http://provappsvpcqa01.provapps.com:6080/ProvAppCLWeb/'  
-  #:url: 'http://10.40.100.193:7001//ProvAppCLWeb/'
-  #:url: 'http://provappsvpcwl01.provapps.com:7001/ProvAppCLWeb/'
-  #:url: 'http://was01.provapps.com:9080/ProvAppCLWeb/'
-  :url: 'http://10.40.100.167:7001/ProvAppCLWeb/'
-fmartin:
+default: &default  
+  :url: 'http://google.com'
+user1:
   <<: *default  
-  :name: 'Frank Martin'
-  :login: 'fmartin'
-  :password: 'Provenir1'
-clientspcl:
-  <<: *default
-  :name: 'Client Specialist User'
-  :login: 'clientspcl'
-  :password: 'Provenir1'
-provadmin:
-  <<: *default
-  :name: 'Provenir Admin User'
-  :login: 'provadmin'
-  :password: 'Provenir1'
+  :name: 'James Stewart'
+  :login: 'jstewart'
+  :password: 'Hello!23'
