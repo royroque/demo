@@ -14,7 +14,8 @@ begin
     t.rspec_opts = "--format documentation -o ./logs/#{product}.log --format html --out ./logs/#{product}.html --require yarjuf --format JUnit  --out ./logs/#{product}.xml"
   end
   
-  task :default => [:template]
+  task :default => :regression
+  task :regression => [:template]
   
 =begin 
   ##To run parallel_test ; run rake "parallel:spec[2]"
