@@ -22,7 +22,7 @@ module ElementLocatorHelper
     element=el.text_field(:id => /#{label_name}/)
     if element.value != text_pattern
       element.set text_pattern
-      element.send_keys :tab if browser.table(:class=>'ui-datepicker-calendar').present?
+      element.send_keys :tab if el.table(:class=>'ui-datepicker-calendar').present?
     end
   end
   
@@ -31,7 +31,7 @@ module ElementLocatorHelper
     element=el.text_field(:name => /#{label_name}/)
     if element.value != text_pattern
       element.set text_pattern
-      element.send_keys :tab if browser.table(:class=>'ui-datepicker-calendar').present?
+      element.send_keys :tab if el.table(:class=>'ui-datepicker-calendar').present?
     end
   end
   
@@ -40,7 +40,7 @@ module ElementLocatorHelper
     element=el.label(:text => /#{label_name}/)
     if element.parent.text_field.value != text_pattern
       element.parent.text_field.set text_pattern
-      element.parent.text_field.send_keys :tab if browser.table(:class=>'ui-datepicker-calendar').present?
+      element.parent.text_field.send_keys :tab if el.table(:class=>'ui-datepicker-calendar').present?
     end
   end
 
@@ -49,7 +49,7 @@ module ElementLocatorHelper
     element=el.label(:text => /#{label_name}/)
     if element.parent.parent.text_field.value != text_pattern
       element.parent.parent.text_field.set text_pattern
-      element.parent.parent.text_field.send_keys :tab if browser.table(:class=>'ui-datepicker-calendar').present?
+      element.parent.parent.text_field.send_keys :tab if el.table(:class=>'ui-datepicker-calendar').present?
     end
   end
     
@@ -155,8 +155,8 @@ module ElementLocatorHelper
    
   
   ## SELECT LIST
-  def select_list_id(label_name, text_pattern)
-    element=browser.select_list(:id => /#{label_name}/)
+  def select_list_id(label_name, text_pattern,el=browser)
+    element=el.select_list(:id => /#{label_name}/)
     unless element.selected?(text_pattern)
       sleep 1
       element.select text_pattern
@@ -164,8 +164,8 @@ module ElementLocatorHelper
     end
   end
   
-  def select_list_parent_label(label_name, text_pattern)
-    element=browser.label(:text => /#{label_name}/).parent.select_list
+  def select_list_parent_label(label_name, text_pattern,el=browser)
+    element=el.label(:text => /#{label_name}/).parent.select_list
     unless element.selected?(text_pattern)
       sleep 1
       element.select text_pattern
@@ -173,8 +173,8 @@ module ElementLocatorHelper
     end
   end
   
-  def select_pulldown_parent_label(label_name, text_pattern)
-    element=browser.label(:text => /#{label_name}/).parent.select_list
+  def select_pulldown_parent_label(label_name, text_pattern,el=browser)
+    element=el.label(:text => /#{label_name}/).parent.select_list
     unless element.selected?(text_pattern)
       sleep 1
       element.select text_pattern
