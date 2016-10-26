@@ -5,48 +5,48 @@ module ElementLocatorHelper
   
   
   ## BUTTON
-  def button_text_click(text)
-    browser.button(:text=>text).wait_until_present
-    browser.button(:text=>text).click
+  def button_text_click(text,el=browser)
+    el.button(:text=>text).wait_until_present
+    el.button(:text=>text).click
   end
 
-  def button_text_onclick(text)
-    browser.button(:text=>text).wait_until_present
-    browser.button(:text=>text).fire_event :click
+  def button_text_onclick(text,el=browser)
+    el.button(:text=>text).wait_until_present
+    el.button(:text=>text).fire_event :click
   end
 
 
   ## TEXT FIELD
-  def text_field_id(label_name , text_pattern)
-    browser.text_field(:id => /#{label_name}/).wait_until_present
-    element=browser.text_field(:id => /#{label_name}/)
+  def text_field_id(label_name , text_pattern,el=browser)
+    el.text_field(:id => /#{label_name}/).wait_until_present
+    element=el.text_field(:id => /#{label_name}/)
     if element.value != text_pattern
       element.set text_pattern
       element.send_keys :tab if browser.table(:class=>'ui-datepicker-calendar').present?
     end
   end
   
-  def text_field_name(label_name , text_pattern)
-    browser.text_field(:name => /#{label_name}/).wait_until_present
-    element=browser.text_field(:name => /#{label_name}/)
+  def text_field_name(label_name , text_pattern,el=browser)
+    el.text_field(:name => /#{label_name}/).wait_until_present
+    element=el.text_field(:name => /#{label_name}/)
     if element.value != text_pattern
       element.set text_pattern
       element.send_keys :tab if browser.table(:class=>'ui-datepicker-calendar').present?
     end
   end
   
-  def text_field_parent_label(label_name , text_pattern)
-    browser.label(:text => /#{label_name}/).wait_until_present
-    element=browser.label(:text => /#{label_name}/)
+  def text_field_parent_label(label_name , text_pattern,el=browser)
+    el.label(:text => /#{label_name}/).wait_until_present
+    element=el.label(:text => /#{label_name}/)
     if element.parent.text_field.value != text_pattern
       element.parent.text_field.set text_pattern
       element.parent.text_field.send_keys :tab if browser.table(:class=>'ui-datepicker-calendar').present?
     end
   end
 
-  def text_field_grandparent_label(label_name , text_pattern)
-    browser.label(:text => /#{label_name}/).wait_until_present
-    element=browser.label(:text => /#{label_name}/)
+  def text_field_grandparent_label(label_name , text_pattern,el=browser)
+    el.label(:text => /#{label_name}/).wait_until_present
+    element=el.label(:text => /#{label_name}/)
     if element.parent.parent.text_field.value != text_pattern
       element.parent.parent.text_field.set text_pattern
       element.parent.parent.text_field.send_keys :tab if browser.table(:class=>'ui-datepicker-calendar').present?
@@ -184,8 +184,26 @@ module ElementLocatorHelper
   
   
   ## RADIO  
-  def radio_id_set(label_name)    
-    element=browser.radio(:id => /#{label_name}/)
+  def radio_value_set(label_name,el=browser)
+    element=el.radio(:value => /#{label_name}/)
+    element.wait_until_present
+    unless element.checked?
+      sleep 1
+      element.set
+    end
+  end
+
+  def radio_value_clear(label_name,el=browser)
+    element=el.radio(:value => /#{label_name}/)
+    element.wait_until_present
+    unless element.checked?
+      sleep 1
+      element.clear
+    end
+  end
+
+  def radio_id_set(label_name,el=browser)
+    element=el.radio(:id => /#{label_name}/)
     element.wait_until_present
     unless element.checked?
       sleep 1
@@ -193,8 +211,8 @@ module ElementLocatorHelper
     end
   end
   
-  def radio_id_clear(label_name)    
-    element=browser.radio(:id => /#{label_name}/)
+  def radio_id_clear(label_name,el=browser)
+    element=el.radio(:id => /#{label_name}/)
     element.wait_until_present
     if element.checked?
       sleep 1
@@ -202,18 +220,18 @@ module ElementLocatorHelper
     end
   end
     
-  def radio_parent_label_set(label_name)
-    browser.label(:text => /#{label_name}/).wait_until_present
-    element=browser.label(:text => /#{label_name}/).parent.radio
+  def radio_parent_label_set(label_name,el=browser)
+    el.label(:text => /#{label_name}/).wait_until_present
+    element=el.label(:text => /#{label_name}/).parent.radio
     unless element.checked?
       sleep 1
       element.set
     end
   end
   
-  def radio_parent_label_clear(label_name)
-    browser.label(:text => /#{label_name}/).wait_until_present
-    element=browser.label(:text => /#{label_name}/).parent.radio
+  def radio_parent_label_clear(label_name,el=browser)
+    el.label(:text => /#{label_name}/).wait_until_present
+    element=el.label(:text => /#{label_name}/).parent.radio
     if element.checked?
       sleep 1
       element.clear
@@ -222,8 +240,8 @@ module ElementLocatorHelper
   
   
   ## CHECKBOX
-  def checkbox_id_set(label_name)    
-    element=browser.checkbox(:id => /#{label_name}/)
+  def checkbox_id_set(label_name,el=browser)
+    element=el.checkbox(:id => /#{label_name}/)
     element.wait_until_present
     unless element.checked?
       sleep 1
@@ -232,8 +250,8 @@ module ElementLocatorHelper
     wait_while_loading_gif
   end
   
-  def checkbox_id_clear(label_name)    
-    element=browser.checkbox(:id => /#{label_name}/)
+  def checkbox_id_clear(label_name,el=browser)
+    element=el.checkbox(:id => /#{label_name}/)
     element.wait_until_present
     if element.checked?
       sleep 1
@@ -242,9 +260,9 @@ module ElementLocatorHelper
     wait_while_loading_gif
   end
   
-  def checkbox_parent_label_set(label_name)
-    browser.label(:text => /#{label_name}/).wait_until_present
-    element=browser.label(:text => /#{label_name}/).parent.checkbox
+  def checkbox_parent_label_set(label_nameel=browser)
+    el.label(:text => /#{label_name}/).wait_until_present
+    element=el.label(:text => /#{label_name}/).parent.checkbox
     unless element.checked?
       sleep 1
       element.set
@@ -252,9 +270,9 @@ module ElementLocatorHelper
     wait_while_loading_gif
   end
   
-  def checkbox_parent_label_clear(label_name)
-    browser.label(:text => /#{label_name}/).wait_until_present
-    element=browser.label(:text => /#{label_name}/).parent.checkbox
+  def checkbox_parent_label_clear(label_name,el=browser)
+    el.label(:text => /#{label_name}/).wait_until_present
+    element=el.label(:text => /#{label_name}/).parent.checkbox
     if element.checked?
       sleep 1
       element.clear
@@ -262,9 +280,9 @@ module ElementLocatorHelper
     wait_while_loading_gif
   end
   
-  def checkbox_parent_span_set(label_name)
-    browser.span(:text => /#{label_name}/).wait_until_present
-    element=browser.span(:text => /#{label_name}/).parent.checkbox
+  def checkbox_parent_span_set(label_name,el=browser)
+    el.span(:text => /#{label_name}/).wait_until_present
+    element=el.span(:text => /#{label_name}/).parent.checkbox
     unless element.checked?
       sleep 1
       element.set
@@ -272,9 +290,9 @@ module ElementLocatorHelper
     wait_while_loading_gif
   end
   
-  def checkbox_parent_span_clear(label_name)
-    browser.span(:text => /#{label_name}/).wait_until_present
-    element=browser.span(:text => /#{label_name}/).parent.checkbox
+  def checkbox_parent_span_clear(label_name,el=browser)
+    el.span(:text => /#{label_name}/).wait_until_present
+    element=el.span(:text => /#{label_name}/).parent.checkbox
     unless element.checked?
       sleep 1
       element.clear
@@ -284,15 +302,15 @@ module ElementLocatorHelper
 
 
   ## LINKS
-  def link_id_click(id)
-    browser.link(:id=>id).wait_until_present
-    browser.link(:id=>id).click
+  def link_id_click(id,el=browser)
+    el.link(:id=>id).wait_until_present
+    el.link(:id=>id).click
     wait_while_loading_gif
   end
 
-  def link_id_onclick(id)
-    browser.link(:id=>id).wait_until_present
-    browser.link(:id=>id).fire_event('onclick')
+  def link_id_onclick(id,el=browser)
+    el.link(:id=>id).wait_until_present
+    el.link(:id=>id).fire_event('onclick')
     wait_while_loading_gif
   end
 
@@ -310,27 +328,27 @@ module ElementLocatorHelper
     wait_while_loading_gif
   end
 
-  def link_name_click(id)
-    browser.link(:name=>id).wait_until_present
-    browser.link(:name=>id).click
+  def link_name_click(id,el=browser)
+    el.link(:name=>id).wait_until_present
+    el.link(:name=>id).click
     wait_while_loading_gif
   end
 
-  def link_name_onclick(id)
-    browser.link(:name=>id).wait_until_present
-    browser.link(:name=>id).fire_event('onclick')
+  def link_name_onclick(id,el=browser)
+    el.link(:name=>id).wait_until_present
+    el.link(:name=>id).fire_event('onclick')
     wait_while_loading_gif
   end
 
-  def link_class_click(id)
-    browser.link(:class=>id).wait_until_present
-    browser.link(:class=>id).fire_event('onclick')
+  def link_class_click(id,el=browser)
+    el.link(:class=>id).wait_until_present
+    el.link(:class=>id).fire_event('onclick')
     wait_while_loading_gif
   end
 
-  def link_class_onclick(id)
-    browser.link(:class=>id).wait_until_present
-    browser.link(:class=>id).fire_event('onclick')
+  def link_class_onclick(id,el=browser)
+    el.link(:class=>id).wait_until_present
+    el.link(:class=>id).fire_event('onclick')
     wait_while_loading_gif
   end
 
