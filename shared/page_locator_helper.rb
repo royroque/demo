@@ -105,6 +105,7 @@ module ElementLocatorHelper
       browser.li(:text=>/^#{text_pattern.split('').join('.*')}/i).when_present.click rescue nil
       wait_while_loading_gif
     end
+    wait_while_loading_gif
   end
 
   def combobox_customname(label_name, text_pattern)
@@ -116,7 +117,8 @@ module ElementLocatorHelper
       wait_while_loading_gif
       browser.li(:text=>/^#{text_pattern.split('').join('.*')}/i).when_present.click rescue nil
       wait_while_loading_gif
-    end    
+    end   
+    wait_while_loading_gif 
   end
    
   def combobox_parent_label (label_name, text_pattern)
@@ -142,6 +144,7 @@ module ElementLocatorHelper
       browser.li(:text=>/^#{text_pattern.split('').join('.*')}/).when_present.click rescue nil
       wait_while_loading_gif
     end
+    wait_while_loading_gif
   end
 
   def combo_box_parent_label_click_link(label_name,text_pattern)
@@ -151,6 +154,7 @@ module ElementLocatorHelper
     #browser.label(:text=>/#{label_name}/).parent.text_field.set text_pattern
     #wait_while_loading_gif       
     browser.li(:text=>text_pattern).when_present.click rescue nil
+    wait_while_loading_gif
   end
    
   
@@ -427,6 +431,20 @@ module ElementLocatorHelper
 
     el.span(:class=>/ui-button/,:text=>/Ok/).parent.fire_event('onclick')
     wait_while_loading_gif
+  end
+
+  ## FOLDERTREE
+  def foldertree_folder_span_text(text,el=browser)
+    browser.div(:class=>'RepoFolderTreeClass').wait_until_present
+    unless el.uls(:class=>/RepoFolders/)[-1].span(:text=>/#{text}/).parent.attribute_value('class').include? 'closed collapsable'
+      el.uls(:class=>/RepoFolders/)[-1].span(:text=>text).when_present.click rescue nil
+      wait_while_loading_gif
+    end
+  end
+
+  def foldertree_span_text(text,el=browser)
+    browser.div(:class=>'RepoFolderTreeClass').wait_until_present
+    el.uls(:class=>/RepoFolders/)[-1].span(:text=>text).when_present.click rescue nil    
   end
 
 end
