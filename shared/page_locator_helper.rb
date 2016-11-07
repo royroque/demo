@@ -56,7 +56,7 @@ module ElementLocatorHelper
   ## (TEXT FIELD) DATE FIELD
   def date_field_id(label_name , date)
     date.gsub!('/','-')
-    text_field_id(label_name , date)        
+    text_field_id(label_name , date)
   end
   
   ## (TEXT FIELD) DATE FIELD
@@ -97,7 +97,7 @@ module ElementLocatorHelper
   ## COMBOBOX
   def combobox_id(label_name, text_pattern)
     browser.text_field(:id=>/#{label_name}/).wait_until_present    
-    element=browser.text_field(:id=>/#{label_name}/)    
+    element=browser.text_field(:id=>/#{label_name}/)
     if element.value != text_pattern
       element.send_keys [:control,'a'], :backspace
       element.set text_pattern
@@ -109,8 +109,8 @@ module ElementLocatorHelper
   end
 
   def combobox_customname(label_name, text_pattern)
-    browser.text_field(:customname=>/#{label_name}/).wait_until_present    
-    element=browser.text_field(:customname=>/#{label_name}/)    
+    browser.text_field(:customname=>/#{label_name}/).wait_until_present
+    element=browser.text_field(:customname=>/#{label_name}/)
     if element.value != text_pattern
       element.send_keys [:control,'a'], :backspace
       element.set text_pattern
@@ -191,55 +191,55 @@ module ElementLocatorHelper
   def radio_value_set(label_name,el=browser)
     element=el.radio(:value => /#{label_name}/)
     element.wait_until_present
-    unless element.checked?
-      sleep 1
+    # unless element.checked?
+      # sleep 1
       element.set
-    end
+    # end
   end
 
   def radio_value_clear(label_name,el=browser)
     element=el.radio(:value => /#{label_name}/)
     element.wait_until_present
-    unless element.checked?
-      sleep 1
+    # unless element.checked?
+      # sleep 1
       element.clear
-    end
+    # end
   end
 
   def radio_id_set(label_name,el=browser)
     element=el.radio(:id => /#{label_name}/)
     element.wait_until_present
-    unless element.checked?
-      sleep 1
+    # unless element.checked?
+      # sleep 1
       element.set
-    end
+    # end
   end
   
   def radio_id_clear(label_name,el=browser)
     element=el.radio(:id => /#{label_name}/)
     element.wait_until_present
-    if element.checked?
-      sleep 1
+    # if element.checked?
+      # sleep 1
       element.clear
-    end
+    # end
   end
     
   def radio_parent_label_set(label_name,el=browser)
     el.label(:text => /#{label_name}/).wait_until_present
     element=el.label(:text => /#{label_name}/).parent.radio
-    unless element.checked?
-      sleep 1
+    # unless element.checked?
+      # sleep 1
       element.set
-    end
+    # end
   end
   
   def radio_parent_label_clear(label_name,el=browser)
     el.label(:text => /#{label_name}/).wait_until_present
     element=el.label(:text => /#{label_name}/).parent.radio
-    if element.checked?
-      sleep 1
+    # if element.checked?
+      # sleep 1
       element.clear
-    end
+    # end
   end
   
   
@@ -247,60 +247,60 @@ module ElementLocatorHelper
   def checkbox_id_set(label_name,el=browser)
     element=el.checkbox(:id => /#{label_name}/)
     element.wait_until_present
-    unless element.checked?
-      sleep 1
+    # unless element.checked?
+      # sleep 1
       element.set
-    end
+    # end
     wait_while_loading_gif
   end
   
   def checkbox_id_clear(label_name,el=browser)
     element=el.checkbox(:id => /#{label_name}/)
     element.wait_until_present
-    if element.checked?
-      sleep 1
+    # if element.checked?
+      # sleep 1
       element.clear
-    end
+    # end
     wait_while_loading_gif
   end
   
   def checkbox_parent_label_set(label_nameel=browser)
     el.label(:text => /#{label_name}/).wait_until_present
     element=el.label(:text => /#{label_name}/).parent.checkbox
-    unless element.checked?
-      sleep 1
+    # unless element.checked?
+      # sleep 1
       element.set
-    end
+    # end
     wait_while_loading_gif
   end
   
   def checkbox_parent_label_clear(label_name,el=browser)
     el.label(:text => /#{label_name}/).wait_until_present
     element=el.label(:text => /#{label_name}/).parent.checkbox
-    if element.checked?
-      sleep 1
+    # if element.checked?
+      # sleep 1
       element.clear
-    end
+    # end
     wait_while_loading_gif
   end
   
   def checkbox_parent_span_set(label_name,el=browser)
     el.span(:text => /#{label_name}/).wait_until_present
     element=el.span(:text => /#{label_name}/).parent.checkbox
-    unless element.checked?
-      sleep 1
+    # unless element.checked?
+      # sleep 1
       element.set
-    end
+    # end
     wait_while_loading_gif
   end
   
   def checkbox_parent_span_clear(label_name,el=browser)
     el.span(:text => /#{label_name}/).wait_until_present
     element=el.span(:text => /#{label_name}/).parent.checkbox
-    unless element.checked?
-      sleep 1
+    # unless element.checked?
+      # sleep 1
       element.clear
-    end
+    # end
     wait_while_loading_gif
   end
 
