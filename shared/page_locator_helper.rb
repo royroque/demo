@@ -2,6 +2,7 @@ module ElementLocatorHelper
   ## EXTEND WATIR::HTMLElement to add custom id
   Watir::HTMLElement.attributes << :customid
   Watir::HTMLElement.attributes << :customname
+  Watir::HTMLElement.attributes << :refvarname
   
   
   ## BUTTON
@@ -91,6 +92,44 @@ module ElementLocatorHelper
     element=browser.label(:text => /#{label_name}/)
     element.parent.text_fields[0].set phone_num[0..2]
     element.parent.text_fields[1].set phone_num[3..9]
+  end
+
+
+  ## TEXTAREA
+  def textarea_id(label_name , text_pattern,el=browser)
+    el.textarea(:id => /#{label_name}/).wait_until_present
+    element=el.textarea(:id => /#{label_name}/)
+    if element.value != text_pattern
+      element.set text_pattern
+      element.send_keys :tab if el.table(:class=>'ui-datepicker-calendar').present?
+    end
+  end
+  
+  def textarea_name(label_name , text_pattern,el=browser)
+    el.textarea(:name => /#{label_name}/).wait_until_present
+    element=el.textarea(:name => /#{label_name}/)
+    if element.value != text_pattern
+      element.set text_pattern
+      element.send_keys :tab if el.table(:class=>'ui-datepicker-calendar').present?
+    end
+  end
+  
+  def textarea_parent_label(label_name , text_pattern,el=browser)
+    el.label(:text => /#{label_name}/).wait_until_present
+    element=el.label(:text => /#{label_name}/)
+    if element.parent.textarea.value != text_pattern
+      element.parent.textarea.set text_pattern
+      element.parent.textarea.send_keys :tab if el.table(:class=>'ui-datepicker-calendar').present?
+    end
+  end
+
+  def textarea_grandparent_label(label_name , text_pattern,el=browser)
+    el.label(:text => /#{label_name}/).wait_until_present
+    element=el.label(:text => /#{label_name}/)
+    if element.parent.parent.textarea.value != text_pattern
+      element.parent.parent.textarea.set text_pattern
+      element.parent.parent.textarea.send_keys :tab if el.table(:class=>'ui-datepicker-calendar').present?
+    end
   end
   
   
