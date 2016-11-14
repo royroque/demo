@@ -394,7 +394,18 @@ module ElementLocatorHelper
     el.link(:class=>id).fire_event('onclick')
     wait_while_loading_gif
   end
-
+ 
+  def link_title_click(id,el=browser)
+    el.link(:title=>id).wait_until_present
+    el.link(:title=>id).fire_event('onclick')
+    wait_while_loading_gif
+  end
+  
+  def link_title_onclick(id,el=browser)
+    el.link(:title=>id).wait_until_present
+    el.link(:title=>id).fire_event('onclick')
+    wait_while_loading_gif
+  end
 
   ## ACTION MENU
   def actionmenu_parent_td(text_pattern,action,el=browser)
