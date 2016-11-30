@@ -147,9 +147,9 @@ module ElementLocatorHelper
     wait_while_loading_gif
   end
 
-  def combobox_customname(label_name, text_pattern)
-    browser.text_field(:customname=>/#{label_name}/).wait_until_present
-    element=browser.text_field(:customname=>/#{label_name}/)
+  def combobox_customname(label_name, text_pattern,el=browser)
+    el.text_field(:customname=>/#{label_name}/).wait_until_present
+    element=el.text_field(:customname=>/#{label_name}/)
     if element.value != text_pattern
       element.send_keys [:control,'a'], :backspace
       element.set text_pattern
@@ -358,14 +358,12 @@ module ElementLocatorHelper
   end
 
   def link_text_click(id,el=browser)
-    el.wait_until_present
     el.link(:text=>/#{id}/).wait_until_present
     el.link(:text=>/#{id}/).click
     wait_while_loading_gif
   end
   
   def link_text_onclick(id,el=browser)
-    el.wait_until_present
     el.link(:text=>/#{id}/).wait_until_present
     el.link(:text=>/#{id}/).fire_event('onclick')
     wait_while_loading_gif
@@ -407,6 +405,14 @@ module ElementLocatorHelper
     wait_while_loading_gif
   end
 
+  ## SPAN
+  def span_button_text_click(text,el=browser)
+    # browser.div(:id=>'ApprTitleExp').span(:class=>'ui-button-text',:text=>'Edit').parent.click
+    el.span(:class=>'ui-button-text',:text=>/#{text}/).wait_until_present
+    el.span(:class=>'ui-button-text',:text=>/#{text}/).click
+    wait_while_loading_gif    
+  end
+
   ## ACTION MENU
   def actionmenu_parent_td(text_pattern,action,el=browser)
     ## el could be:  ,el=browser.div(:id=>/taskManagmnt/)
@@ -427,8 +433,8 @@ module ElementLocatorHelper
   def actionmenu_grandparent_link(text_pattern,action,el=browser)
     ## el could be:  ,el=browser.div(:id=>/taskManagmnt/)
     el.wait_until_present unless el==browser unless el==browser
-    el.link(:text=>text_pattern).wait_until_present(60)
-    el.link(:text=>text_pattern).parent.parent.link(:class=>/Actionmenu/i).when_present(60).click
+    el.link(:text=>/^#{text_pattern}/).wait_until_present(60)
+    el.link(:text=>/^#{text_pattern}/).parent.parent.link(:class=>/Actionmenu/i).when_present(60).click
     actionmenu_select_action(action)
   end
 
@@ -452,8 +458,8 @@ module ElementLocatorHelper
     ## NOT A REAL PAGE_LOCATOR-just a helper
     ## DONT KNOW WHY BUT action needs to be in regex even if it contains the whole word; so dont change below.
     wait_while_loading_gif
-    browser.link(:text=>/#{action}/).when_present.flash
-    browser.link(:text=>/#{action}/).fire_event :click
+    # browser.link(:text=>/#{action}/).when_present.flash
+    browser.link(:text=>/#{action}/).when_present.fire_event :click
     wait_while_loading_gif
   end
 
