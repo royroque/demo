@@ -9,6 +9,7 @@ module LoadEnvVar
   ENV['HEADLESS'] ||= "false"
   #ENV['BROWSER_TYPE'] ||= 'internet_explorer' 
   ENV['BROWSER_TYPE'] ||= 'firefox'
+  # ENV['BROWSER_TYPE'] ||= 'chrome'
 
   ## VERBOSE: CAPTURE TIMING WHEN SPECIFIED
   ENV['VERBOSE_TIMING'] ||= 'YES'

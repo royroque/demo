@@ -13,9 +13,11 @@ describe "Suite Demo" do
     close_all_windows
   end
 
-  it "test story 1" do
-    login_to_url
-    execute_test_case_1
+  it "test create dashboard test" do
+    #===================================================#
+    pending('test case still work in progress')
+    fail
+    #===================================================#
   end
 
 end
