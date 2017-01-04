@@ -1,0 +1,7 @@
+default: &default  
+user1:
+  <<: *default
+  :name: 'One'
+user2:
+  <<: *default
+  :name: 'Two'
