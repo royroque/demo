@@ -139,12 +139,9 @@ module ElementLocatorHelper
     element=browser.text_field(:id=>/#{label_name}/)
     if element.value != text_pattern
       element.send_keys [:control,'a'], :backspace
-      element.set text_pattern
-      wait_while_loading_gif
+      element.set text_pattern      
       browser.li(:text=>/^#{text_pattern.split('').join('.*')}/i).when_present.click rescue nil
-      wait_while_loading_gif
     end
-    wait_while_loading_gif
   end
 
   def combobox_customname(label_name, text_pattern,el=browser)
@@ -153,11 +150,8 @@ module ElementLocatorHelper
     if element.value != text_pattern
       element.send_keys [:control,'a'], :backspace
       element.set text_pattern
-      wait_while_loading_gif
       browser.li(:text=>/^#{text_pattern.split('').join('.*')}/i).when_present.click rescue nil
-      wait_while_loading_gif
     end   
-    wait_while_loading_gif 
   end
    
   def combobox_parent_label (label_name, text_pattern)
@@ -166,11 +160,8 @@ module ElementLocatorHelper
     if element.parent.text_field.value != text_pattern
       element.parent.text_field.send_keys [:control,'a'], :backspace
       element.parent.text_field.set text_pattern
-      wait_while_loading_gif
       browser.li(:text=>/^#{text_pattern.split('').join('.*')}/i).when_present.click rescue nil
-      wait_while_loading_gif
     end
-    wait_while_loading_gif
   end
   
   def combobox_grandparent_label (label_name, text_pattern)
@@ -179,21 +170,16 @@ module ElementLocatorHelper
     if element.parent.parent.text_field.value != text_pattern
       element.parent.parent.text_field.send_keys [:control,'a'], :backspace
       element.parent.parent.text_field.set text_pattern
-      wait_while_loading_gif
       browser.li(:text=>/^#{text_pattern.split('').join('.*')}/).when_present.click rescue nil
-      wait_while_loading_gif
     end
-    wait_while_loading_gif
+    
   end
 
   def combo_box_parent_label_click_link(label_name,text_pattern)
     browser.label(:text=>/#{label_name}/).wait_until_present
     browser.label(:text=>/#{label_name}/).parent.links[-1].click
-    wait_while_loading_gif
     #browser.label(:text=>/#{label_name}/).parent.text_field.set text_pattern
-    #wait_while_loading_gif       
-    browser.li(:text=>text_pattern).when_present.click rescue nil
-    wait_while_loading_gif
+    browser.li(:text=>text_pattern).when_present.click rescue nil    
   end
    
   
@@ -203,7 +189,6 @@ module ElementLocatorHelper
     unless element.selected?(text_pattern)
       sleep 1
       element.select text_pattern
-      wait_while_loading_gif
     end
   end
   
@@ -212,7 +197,6 @@ module ElementLocatorHelper
     unless element.selected?(text_pattern)
       sleep 1
       element.select text_pattern
-      wait_while_loading_gif
     end
   end
   
@@ -221,7 +205,6 @@ module ElementLocatorHelper
     unless element.selected?(text_pattern)
       sleep 1
       element.select text_pattern
-      wait_while_loading_gif
     end
   end
   
@@ -290,7 +273,7 @@ module ElementLocatorHelper
       # sleep 1
       element.set
     # end
-    wait_while_loading_gif
+    
   end
   
   def checkbox_id_clear(label_name,el=browser)
@@ -300,7 +283,7 @@ module ElementLocatorHelper
       # sleep 1
       element.clear
     # end
-    wait_while_loading_gif
+    
   end
   
   def checkbox_parent_label_set(label_nameel=browser)
@@ -310,7 +293,7 @@ module ElementLocatorHelper
       # sleep 1
       element.set
     # end
-    wait_while_loading_gif
+    
   end
   
   def checkbox_parent_label_clear(label_name,el=browser)
@@ -320,7 +303,7 @@ module ElementLocatorHelper
       # sleep 1
       element.clear
     # end
-    wait_while_loading_gif
+    
   end
   
   def checkbox_parent_span_set(label_name,el=browser)
@@ -330,7 +313,7 @@ module ElementLocatorHelper
       # sleep 1
       element.set
     # end
-    wait_while_loading_gif
+    
   end
   
   def checkbox_parent_span_clear(label_name,el=browser)
@@ -340,7 +323,7 @@ module ElementLocatorHelper
       # sleep 1
       element.clear
     # end
-    wait_while_loading_gif
+    
   end
 
 
@@ -348,61 +331,61 @@ module ElementLocatorHelper
   def link_id_click(id,el=browser)
     el.link(:id=>id).wait_until_present
     el.link(:id=>id).click
-    wait_while_loading_gif
+    
   end
 
   def link_id_onclick(id,el=browser)
     el.link(:id=>id).wait_until_present
     el.link(:id=>id).fire_event('onclick')
-    wait_while_loading_gif
+    
   end
 
   def link_text_click(id,el=browser)
     el.link(:text=>/#{id}/).wait_until_present
     el.link(:text=>/#{id}/).click
-    wait_while_loading_gif
+    
   end
   
   def link_text_onclick(id,el=browser)
     el.link(:text=>/#{id}/).wait_until_present
     el.link(:text=>/#{id}/).fire_event('onclick')
-    wait_while_loading_gif
+    
   end
 
   def link_name_click(id,el=browser)
     el.link(:name=>id).wait_until_present
     el.link(:name=>id).click
-    wait_while_loading_gif
+    
   end
 
   def link_name_onclick(id,el=browser)
     el.link(:name=>id).wait_until_present
     el.link(:name=>id).fire_event('onclick')
-    wait_while_loading_gif
+    
   end
 
   def link_class_click(id,el=browser)
     el.link(:class=>id).wait_until_present
     el.link(:class=>id).fire_event('onclick')
-    wait_while_loading_gif
+    
   end
 
   def link_class_onclick(id,el=browser)
     el.link(:class=>id).wait_until_present
     el.link(:class=>id).fire_event('onclick')
-    wait_while_loading_gif
+    
   end
  
   def link_title_click(id,el=browser)
     el.link(:title=>id).wait_until_present
     el.link(:title=>id).fire_event('onclick')
-    wait_while_loading_gif
+    
   end
   
   def link_title_onclick(id,el=browser)
     el.link(:title=>id).wait_until_present
     el.link(:title=>id).fire_event('onclick')
-    wait_while_loading_gif
+    
   end
 
   ## SPAN
@@ -410,7 +393,7 @@ module ElementLocatorHelper
     # browser.div(:id=>'ApprTitleExp').span(:class=>'ui-button-text',:text=>'Edit').parent.click
     el.span(:class=>'ui-button-text',:text=>/#{text}/).wait_until_present
     el.span(:class=>'ui-button-text',:text=>/#{text}/).click
-    wait_while_loading_gif    
+        
   end
 
   ## ACTION MENU
@@ -457,10 +440,10 @@ module ElementLocatorHelper
   def actionmenu_select_action(action)
     ## NOT A REAL PAGE_LOCATOR-just a helper
     ## DONT KNOW WHY BUT action needs to be in regex even if it contains the whole word; so dont change below.
-    wait_while_loading_gif
+    
     # browser.link(:text=>/#{action}/).when_present.flash
     browser.link(:text=>/#{action}/).when_present.fire_event :click
-    wait_while_loading_gif
+    
   end
 
 
@@ -468,25 +451,25 @@ module ElementLocatorHelper
   def rtf_parent_label(label_name,comment,el=browser)
     ##i.e. comment=@risk_mitigant[:comments_source]
     el.label(:text=>/#{label_name}/).parent.div(:class=>'richTxtArea').click
-    wait_while_loading_gif
+    
     phrase="CKEDITOR.instances.richTxt.setData('#{comment}'); "
     el.execute_script( "#{phrase}")
     sleep 1
 
     el.span(:class=>/ui-button/,:text=>/Ok/).parent.fire_event('onclick')
-    wait_while_loading_gif
+    
   end
 
   def rtf_div_id(label_name,comment,el=browser)
     ##i.e. comment=@risk_mitigant[:comments_source]
     el.div(:id=> /#{label_name}/ , :class=>'richTxtArea').click
-    wait_while_loading_gif
+    
     phrase="CKEDITOR.instances.richTxt.setData('#{comment}'); "
     el.execute_script( "#{phrase}")
     sleep 1
 
     el.span(:class=>/ui-button/,:text=>/Ok/).parent.fire_event('onclick')
-    wait_while_loading_gif
+    
   end
 
   ## FOLDERTREE
@@ -494,7 +477,7 @@ module ElementLocatorHelper
     browser.div(:class=>'RepoFolderTreeClass').wait_until_present
     unless el.uls(:class=>/RepoFolders/)[-1].span(:text=>/#{text}/).parent.attribute_value('class').include? 'closed collapsable'
       el.uls(:class=>/RepoFolders/)[-1].span(:text=>text).when_present.click rescue nil
-      wait_while_loading_gif
+      
     end
   end
 
