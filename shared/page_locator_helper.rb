@@ -246,19 +246,38 @@ module ElementLocatorHelper
     # end
   end
     
-  def radio_parent_label_set(label_name,el=browser)
+  def radio_parent_label_set(label_name,index=0,el=browser)
     el.label(:text => /#{label_name}/).wait_until_present
-    element=el.label(:text => /#{label_name}/).parent.radio
+    element=el.label(:text => /#{label_name}/).parent.radios[index]
     # unless element.checked?
       # sleep 1
       element.set
     # end
   end
-  
-  def radio_parent_label_clear(label_name,el=browser)
+
+  def radio_parent_label_clear(label_name,index=0,el=browser)
     el.label(:text => /#{label_name}/).wait_until_present
-    element=el.label(:text => /#{label_name}/).parent.radio
-    # if element.checked?
+    element=el.label(:text => /#{label_name}/).parent.radios[index]
+    # unless element.checked?
+      # sleep 1
+      element.clear
+    # end
+  end
+
+  def radio_parent_td_set(label_name,index=0,el=browser)
+    el.td(:text => /#{label_name}/).wait_until_present
+    element=el.td(:text => /#{label_name}/).parent.radios[index]
+    # unless element.checked?
+      # sleep 1
+      element.set
+    # end
+  end
+
+  
+  def radio_parent_td_clear(label_name,index=0,el=browser)
+    el.td(:text => /#{label_name}/).wait_until_present
+    element=el.td(:text => /#{label_name}/).parent.radios[index]
+    # unless element.checked?
       # sleep 1
       element.clear
     # end
@@ -286,7 +305,7 @@ module ElementLocatorHelper
     
   end
   
-  def checkbox_parent_label_set(label_nameel=browser)
+  def checkbox_parent_label_set(label_name,el=browser)
     el.label(:text => /#{label_name}/).wait_until_present
     element=el.label(:text => /#{label_name}/).parent.checkbox
     # unless element.checked?
