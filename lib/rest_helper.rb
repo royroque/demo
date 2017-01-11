@@ -5,9 +5,9 @@ module RestHelper
 
 
   ## CREATE
-  def rest_post(uri,xml_file)
+  def rest_post(uri,payload)
     resource = RestClient::Resource.new( uri, { :user => @rest_user, :password => @rest_passwd })
-    response = resource.post(File.read(xml_file), :content_type => @rest_cont_type)
+    response = resource.post(File.read(payload), :content_type => @rest_cont_type)
     puts "Response Code: #{response.code}"
     raise "Error with #{__method__} :  #{response.code} : #{uri}" unless response.code == 200
     return response
@@ -17,7 +17,7 @@ module RestHelper
   ## RETRIEVE
   def rest_get(uri)
     resource = RestClient::Resource.new( uri, { :user => @rest_user, :password => @rest_passwd })
-    response = resource.get(:Accept => 'application/xml' , :content_type => @rest_cont_type)
+    response = resource.get(:Accept => @rest_accept_type , :content_type => @rest_cont_type)
     puts "Response Code: #{response.code}"
     raise "Error with #{__method__} :  #{response.code} : #{uri}" unless response.code == 200
     return response
@@ -25,11 +25,11 @@ module RestHelper
 
 
   ## UPDATE
-  def rest_put(uri,xml_file)
+  def rest_put(uri,payload)
     return_codes = [200,201,202]
 
     resource = RestClient::Resource.new( uri, { :user => @rest_user, :password => @rest_passwd })
-    response = resource.put(File.read(xml_file), :content_type => @rest_cont_type)
+    response = resource.put(File.read(payload), :content_type => @rest_cont_type)
     puts "Response Code: #{response.code}"
     raise "Error with #{__method__} :  #{response.code} : #{uri}" unless return_codes.include?(response.code)
     return response

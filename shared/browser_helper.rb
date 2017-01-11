@@ -50,8 +50,7 @@ module BrowserHelper
       caps = Selenium::WebDriver::Remote::Capabilities.chrome
       caps['chromeOptions'] = {'prefs' => prefs}
       @browser = Watir::Browser.new :chrome, :desired_capabilities => caps
-      @browser.window.move_to(0, 0)      
-      @browser.window.resize_to(1280,720)
+      
          
     elsif browser_type == 'ff' || browser_type == 'firefox' || browser_type == :ff || browser_type == :firefox
       # ENV["WATIR_DRIVER"] = "webdriver"
@@ -68,8 +67,6 @@ module BrowserHelper
       profile['browser.helperApps.neverAsk.saveToDisk'] = "text/csv,application/pdf,application/vnd.ms-excel,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet,application/vnd.openxmlformats-officedocument.wordprocessingml.document"
       profile['pdfjs.disabled'] = true
       @browser = Watir::Browser.new :firefox, :profile => profile 
-      @browser.window.move_to(0, 0)      
-      @browser.window.resize_to(1280,720)
          
     elsif browser_type == 'internet_explorer' || browser_type == 'ie' || browser_type == :ie || browser_type == :internet_explorer
       #ENV["WATIR_DRIVER"] = "classic" #to ensure that watir-classic is used instead of webdriver-IE driver
@@ -78,13 +75,14 @@ module BrowserHelper
       ENV['PATH'] = "#{ENV['PATH']}#{File::PATH_SEPARATOR}#{iedriver_directory}"
 
       @browser = Watir::Browser.new(:internet_explorer)
-      @browser.window.move_to(0, 0)      
-      @browser.window.resize_to(1280,720)
     
     else
       raise 'Sorry only Chrome, Firefox and IE are supported in this project' 
     end
-    
+	
+    #@browser.window.move_to(0, 0)      
+    @browser.window.resize_to(1280,720)    
+	
   end  
   
   def close_all_windows
