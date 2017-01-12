@@ -1,5 +1,5 @@
 require 'restclient'
-require 'faker' #requires that faker gem is installed
+# require 'faker' #requires that faker gem is installed
 
 module RestHelper
 
@@ -19,6 +19,7 @@ module RestHelper
     resource = RestClient::Resource.new( uri, { :user => @rest_user, :password => @rest_passwd })
     response = resource.get(:Accept => @rest_accept_type , :content_type => @rest_cont_type)
     puts "Response Code: #{response.code}"
+    # puts "Response Body: #{response.body}"
     raise "Error with #{__method__} :  #{response.code} : #{uri}" unless response.code == 200
     return response
   end
