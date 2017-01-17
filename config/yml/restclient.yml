@@ -1,0 +1,11 @@
+default: &default  
+auto1:
+  <<: *default
+  :host: 'http://example.com'
+  :port: '9000'
+  :username: 'provadmin'  
+  :password: 'Provenir1'
+  :content_type: 'application/json'
+  :accept_type: = 'application/json'
+
+

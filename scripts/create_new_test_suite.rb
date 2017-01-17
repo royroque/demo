@@ -2,18 +2,27 @@ require 'fileutils'
 
 puts 'This is a script will create your spec/helper/cfg/yml/rakefile of your NEW TEST SUITE'
 
-if ARGV.size != 1
-  puts 'ERROR in Usage: script require that you need to pass ONLY 1 parameter (i.e. ruby create_new_test_suite wizard)'
-  puts 'Bye-bye - TRY AGAIN'
+if ARGV.size != 2
+  puts 'ERROR:  This script require that you need to pass 2 parameters <name> <api/ui>'
+  puts 'USAGE:  ruby create_new_test_suite <name> <api/ui>'
+  puts '        ruby create_new_test_suite wizard api'
+  puts 'PLEASE TRY AGAIN'
   exit 1
 else
   puts @suite_name=ARGV[0].downcase
+  puts @spec_type=ARGV[1].downcase
+
+  unless @spec_type == 'api' || @spec_type == 'ui'
+    puts '2nd parameters need to be of type:  ui/api'
+    puts 'PLEASE TRY AGAIN'
+    exit 1
+  end
 end
 
 
 ## COPY and MODIFY TEMPLATE SPEC WITH SUITENAME
-@source_file=File.expand_path(File.dirname(__FILE__) +"/../spec/template_spec.rb")
-@target_file=File.expand_path(File.dirname(__FILE__) +"/../spec/#{@suite_name}_spec.rb")
+@source_file=File.expand_path(File.dirname(__FILE__) +"/../spec_#{@spec_type}/template_spec.rb")
+@target_file=File.expand_path(File.dirname(__FILE__) +"/../spec_#{@spec_type}/#{@suite_name}_spec.rb")
 text=File.read(@source_file)
 text.gsub!('template',@suite_name) #cfg/helper
 text.gsub!('Template Test Suites',"#{@suite_name.capitalize} Test Suites") #describe

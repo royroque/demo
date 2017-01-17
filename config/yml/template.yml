@@ -2,6 +2,8 @@ default: &default
 user1:
   <<: *default
   :name: 'One'
+  :age: 5
 user2:
   <<: *default
   :name: 'Two'
+  :age: 2

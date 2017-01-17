@@ -101,7 +101,45 @@ module BrowserHelper
     headless.destroy if ENV['HEADLESS'] == "true" && RbConfig::CONFIG['host_os'] =~ /linux/
   end
   
-
+  def take_screenshot
+    puts __method__
+    filename = File.expand_path(File.dirname(__FILE__)+"/../logs/#{Time.now.strftime('%m%d%y_%H%M%S')}.png")
+    browser.screenshot.save filename
+    sleep 1
+  end
+  
+  def attach_to_window id, pattern
+    parent_window = browser.window
+    Watir::Wait.until(90) { browser.window(id.to_sym => /#{pattern}/).present? }    
+    new_window = browser.window(id.to_sym => /#{pattern}/) 
+    new_window.when_present(90).use
+    sleep 2
+    if block_given?
+      yield
+    end
+    parent_window.use
+    if new_window.present?
+      browser.execute_script("window.onbeforeunload = null")
+      browser.execute_script("window.onbeforeunload = function() {};")
+      sleep 1
+      window.close rescue nil
+      new_window.close
+    end
+  end
+  
+  def attach_to_window_no_close id, pattern
+    parent_window = browser.window   
+    Watir::Wait.until(90) { browser.window(id.to_sym => /#{pattern}/).present? }    
+    new_window = browser.window(id.to_sym => /#{pattern}/) 
+    new_window.when_present.use
+    sleep 2
+    if block_given?
+      yield
+    end
+    parent_window.use
+  end
+  
+  
   
 end
 include BrowserHelper

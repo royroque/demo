@@ -1,2 +1,2 @@
  gem install watir --no-rdoc --no-ri
- gem install --no-rdoc --no-ri headless rspec rspec-core zip win32console rest-client mysql2 watir-scroll coderay yarjuf
+ gem install --no-rdoc --no-ri headless rspec rspec-core zip rest-client mysql2 watir-scroll coderay yarjuf faker

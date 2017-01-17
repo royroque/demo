@@ -3,43 +3,30 @@ module MiscHelpers
   def load_profile_from_config_yml(filename,profile_name)
     YAML.load_file(File.expand_path(File.dirname(__FILE__)+"/../config/yml/#{filename}"))["#{profile_name}"]
   end
-  
-  def take_screenshot
-    puts __method__
-    filename = File.expand_path(File.dirname(__FILE__)+"/../logs/#{Time.now.strftime('%m%d%y_%H%M%S')}.png")
-    browser.screenshot.save filename
-    sleep 1
+
+  def gsub_string_in_file(target_file, target_string, replace_string)
+    text = File.read("#{target_file}")
+    replace = text.gsub("#{target_string}", "#{replace_string}")
+    File.open("#{target_file}", "w") { |file| file.puts replace }
   end
-  
-  def attach_to_window id, pattern
-    parent_window = browser.window
-    Watir::Wait.until(90) { browser.window(id.to_sym => /#{pattern}/).present? }    
-    new_window = browser.window(id.to_sym => /#{pattern}/) 
-    new_window.when_present(90).use
-    sleep 2
-    if block_given?
-      yield
-    end
-    parent_window.use
-    if new_window.present?
-      browser.execute_script("window.onbeforeunload = null")
-      browser.execute_script("window.onbeforeunload = function() {};")
-      sleep 1
-      window.close rescue nil
-      new_window.close
-    end
+
+  def sub_string_in_file(target_file, target_string, replace_string)
+    text = File.read("#{target_file}")
+    replace = text.sub("#{target_string}", "#{replace_string}")
+    File.open("#{target_file}", "w") { |file| file.puts replace }
   end
-  
-  def attach_to_window_no_close id, pattern
-    parent_window = browser.window   
-    Watir::Wait.until(90) { browser.window(id.to_sym => /#{pattern}/).present? }    
-    new_window = browser.window(id.to_sym => /#{pattern}/) 
-    new_window.when_present.use
-    sleep 2
-    if block_given?
-      yield
-    end
-    parent_window.use
+
+  ### USED WITH .ORIG FILE WITH <REPLACE_ME> REF
+  def modify_string_in_file(target_file, string_to_replace, string_to_replace_with)
+     FileUtils.cp_r target_file , "#{target_file}_tmp"
+
+     text = File.read("#{target_file}_tmp")
+     text.gsub!(string_to_replace, string_to_replace_with)
+     File.open(target_file, 'w') {|f| f.puts text}
+     if (open(target_file).grep(/#{string_to_replace_with}/).length) == 0
+       raise "XML file was NOT modified with correct text: #{target_file}"
+     end
+     File.delete "#{target_file}_tmp"
   end
   
   def clean_up_temp_local_settings
