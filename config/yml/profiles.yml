@@ -1,7 +1,0 @@
-default: &default  
-  :url: 'http://google.com'
-user1:
-  <<: *default  
-  :name: 'James Stewart'
-  :login: 'jstewart'
-  :password: 'Hello!23'

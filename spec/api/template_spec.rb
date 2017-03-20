@@ -1,5 +1,5 @@
-require_relative '../config/template_cfg'
-require_relative '../lib/template_helper'
+require_relative '../../config/api/template_cfg'
+require_relative '../../lib/api/template_helper'
 
 describe "Template Test Suites" do
 

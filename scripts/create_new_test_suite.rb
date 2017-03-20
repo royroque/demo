@@ -21,49 +21,54 @@ end
 
 
 ## COPY and MODIFY TEMPLATE SPEC WITH SUITENAME
-@source_file=File.expand_path(File.dirname(__FILE__) +"/../spec_#{@spec_type}/template_spec.rb")
-@target_file=File.expand_path(File.dirname(__FILE__) +"/../spec_#{@spec_type}/#{@suite_name}_spec.rb")
+@source_file=File.expand_path(File.dirname(__FILE__) +"/../spec/#{@spec_type}/template_spec.rb")
+@target_file=File.expand_path(File.dirname(__FILE__) +"/../spec/#{@spec_type}/#{@suite_name}_spec.rb")
+if File.exist?(@target_file)
+  puts 'Test Suite Name already exists - select a new name'
+  exit
+end
 text=File.read(@source_file)
 text.gsub!('template',@suite_name) #cfg/helper
 text.gsub!('Template Test Suites',"#{@suite_name.capitalize} Test Suites") #describe
+text.gsub!('initialize_instance_variables', "init_#{@suite_name}_variables") #instance variables
 File.open(@target_file,'w') {|f| f.puts text}
 
 
 ## COPY and MODIFY TEMPLATE HELPER WITH SUITENAME
-@source_file=File.expand_path(File.dirname(__FILE__) +"/../lib/template_helper.rb")
-@target_file=File.expand_path(File.dirname(__FILE__) +"/../lib/#{@suite_name}_helper.rb")
+@source_file=File.expand_path(File.dirname(__FILE__) +"/../lib/#{@spec_type}/template_helper.rb")
+@target_file=File.expand_path(File.dirname(__FILE__) +"/../lib/#{@spec_type}/#{@suite_name}_helper.rb")
 text=File.read(@source_file)
-text.gsub!('TemplateTasksHelper',"#{@suite_name.capitalize}TemplateTasksHelper") #module/include
+text.gsub!('TemplateTasksHelper',"#{@suite_name.capitalize}TasksHelper") #module/include
 File.open(@target_file,'w') {|f| f.puts text}
 
 
 ## COPY and MODIFY TEMPLATE CFG WITH SUITENAME
-@source_file=File.expand_path(File.dirname(__FILE__) +"/../config/template_cfg.rb")
-@target_file=File.expand_path(File.dirname(__FILE__) +"/../config/#{@suite_name}_cfg.rb")
+@source_file=File.expand_path(File.dirname(__FILE__) +"/../config/#{@spec_type}/template_cfg.rb")
+@target_file=File.expand_path(File.dirname(__FILE__) +"/../config/#{@spec_type}/#{@suite_name}_cfg.rb")
 text=File.read(@source_file)
 text.gsub!('TemplateConfig',"#{@suite_name.capitalize}Config") #module/include
-text.gsub!('template',@suite_name) #module/include
+text.gsub!('template',@suite_name) #yml
+text.gsub!('initialize_instance_variables', "init_#{@suite_name}_variables") #instance variables
 File.open(@target_file,'w') {|f| f.puts text}
 
 
 ## COPY YML WITH SUITENAME
-@source_file=File.expand_path(File.dirname(__FILE__) +"/../config/yml/template.yml")
-@target_file=File.expand_path(File.dirname(__FILE__) +"/../config/yml/#{@suite_name}.yml")
+@source_file=File.expand_path(File.dirname(__FILE__) +"/../config/#{@spec_type}/yml/template.yml")
+@target_file=File.expand_path(File.dirname(__FILE__) +"/../config/#{@spec_type}/yml/#{@suite_name}.yml")
 FileUtils.cp(@source_file, @target_file)
 
 
 ## COPY AND MODIFY RAKEFILE WITH A NEW SECTION OF RAKETASK
-@new_rakefile_section='  desc "Run TEMPLATE Tasks Test Suite"
+@new_rakefile_section='desc "Run TEMPLATE Tasks Test Suite"
   RSpec::Core::RakeTask.new(:TEMPLATE) do |t|
     STDOUT.sync = true
     t.fail_on_error = false
     product = "TEMPLATE"
-    t.pattern = Dir.glob("spec/**/#{product}_spec.rb")
+    t.pattern = Dir.glob("spec/#{@spec_type}/#{product}_spec.rb")
     t.rspec_opts = "--format documentation -o ./logs/#{product}.log --format html --out ./logs/#{product}.html --require yarjuf --format JUnit  --out ./logs/#{product}.xml"
   end
  
-  task :default => :regression
-'
+  task :default => :regression'
 @source_file=File.expand_path(File.dirname(__FILE__) +'/../rakefile')
 text=File.read(@source_file)
 text.gsub!('task :default => :regression',@new_rakefile_section) #Added new section

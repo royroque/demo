@@ -1,22 +1,23 @@
-# demo
-Demo RSPEC Skeleton
+# thehill
+API and UI Framework
+  
+## ADD NEW TEST SUITE:
+    in scripts folder, execute/follow instructions from prompt:
+    USAGE:  ruby create_new_test_suite <name> <api/ui>
 
-## ADD TEST CASE:
+## ADD TEST CASE / METHOD DEFINITION:
     SPEC:  add 
-	  it "test story: name" do
-	    execute_test_case_1
-	  end
+      it "test story: name" do
+        execute_test_case_1 #put method definition in lib/*_helper.rb
+      end
 
-	  
-## NEW TEST SUITE:
-    SPEC: (replace demo1 in all cases below)
-        COPY/MODIFY: spec/demo1_spec.rb
-        ADD: require_relative '../lib/demo1_helper'
-    HELPER: (replace demo1 in all cases below)
-        COPY/MODIFY: lib/demo1_helper.rb
-    
+## EXECUTE TEST MANUALLY
+    in spec folder, run with rspec (with or without )
+      rpsec dashboard_spec.rb -e 'task_desc'
+
 ## RAKE: 
-    RAKEFILE: (copy existing and replace demo1 in all cases below)
+    RAKEFILE: (modify task default line)
+      task :default => :regression, :newtestsuitename
          
 ## JENKINS: 
     (ADD BUILD STEP: Execute batch/shell)

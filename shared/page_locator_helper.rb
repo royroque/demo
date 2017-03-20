@@ -3,6 +3,9 @@ module ElementLocatorHelper
   Watir::HTMLElement.attributes << :customid
   Watir::HTMLElement.attributes << :customname
   Watir::HTMLElement.attributes << :refvarname
+  Watir::HTMLElement.attributes << :uib_tooltip
+  Watir::HTMLElement.attributes << :ng_model
+
   
   
   ## BUTTON

@@ -3,7 +3,13 @@ module TemplateConfig
   def initialize_instance_variables
     @timenow = Time.now.strftime('%m%d_%H%M')
     
-    @rest_obj=YAML.load_file(File.expand_path(File.dirname(__FILE__)+"/../config/yml/restclient.yml"))["auto1"]
+    unless ENV['URL'].nil?
+      @rest_obj[:host]=ENV['URL']
+      @rest_obj[:port]=ENV['PORT']
+    else 
+      @rest_obj=YAML.load_file(File.expand_path(File.dirname(__FILE__)+"/../../config/profiles.yml"))["auto1"]
+    end
+    @rest_obj.update(YAML.load_file(File.expand_path(File.dirname(__FILE__)+"/yml/template.yml"))["auto1"])
 
     ## Following instance variables needed in rest_helper
     @url="#{@rest_obj[:host]}:#{@rest_obj[:port]}"
@@ -13,6 +19,7 @@ module TemplateConfig
     @rest_accept_type=@rest_obj[:accept_type]
     @rest_cont_type=@rest_obj[:content_type]
     
+    return @rest_obj
   end
   
 end

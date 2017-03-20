@@ -14,7 +14,7 @@ module BrowserHelper
       # browser_type = 'ff'
       browser_type = 'chrome'
     end
-    puts "what is my browser type: #{browser_type}"
+    #puts "what is my browser type: #{browser_type}"
     
     ## HEADLESS
     if ENV['HEADLESS'] == "true" && RbConfig::CONFIG['host_os'] =~ /linux/
@@ -54,6 +54,8 @@ module BrowserHelper
          
     elsif browser_type == 'ff' || browser_type == 'firefox' || browser_type == :ff || browser_type == :firefox
       # ENV["WATIR_DRIVER"] = "webdriver"
+      chromedriver_directory = File.join(File.absolute_path(File.dirname(__FILE__)),"bin")
+      ENV['PATH'] = "#{ENV['PATH']}#{File::PATH_SEPARATOR}#{chromedriver_directory}"      
       download_directory = File.expand_path(File.dirname(__FILE__)+"/../downloads/")
       download_directory.gsub!("/", "\\") if Selenium::WebDriver::Platform.windows?
 
@@ -81,18 +83,26 @@ module BrowserHelper
     end
 	
     #@browser.window.move_to(0, 0)      
-    @browser.window.resize_to(1280,720)    
+    #@browser.window.resize_to(1280,720) 
+    @browser.driver.manage.window.maximize   
 	
   end  
   
   def close_all_windows
     #puts "===Closing browser session==="
-    browser.windows.each do |window|
-      window.use
-      browser.execute_script("window.onbeforeunload = null")
-      browser.execute_script("window.onbeforeunload = function() {};")
-      sleep 1
-      window.close rescue nil
+	if browser.windows.count == 1
+	  browser.close
+	else
+	  pw=browser.windows[0]
+      browser.windows.each_with_index do |window,i|
+        unless i == 0
+          browser.execute_script("window.onbeforeunload = null")
+          browser.execute_script("window.onbeforeunload = function() {};")
+          sleep 1
+          window.close rescue nil
+		end
+	  end
+	  pw.close rescue nil
     end
     begin ; browser.alert.ok if browser.alert.exists? ; rescue; end
     clean_up_temp_local_settings

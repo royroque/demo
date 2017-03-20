@@ -1,7 +1,18 @@
+require 'rspec'
+include RSpec::Matchers
+require 'fileutils'
+require 'rbconfig'
+require 'yaml'
+require 'rest-client'
+require 'rexml/document'
+include REXML
+#require 'mysql2'
+#require 'pg'
+
 module MiscHelpers
 
   def load_profile_from_config_yml(filename,profile_name)
-    YAML.load_file(File.expand_path(File.dirname(__FILE__)+"/../config/yml/#{filename}"))["#{profile_name}"]
+    YAML.load_file(File.expand_path(File.dirname(__FILE__)+"/yml/#{filename}"))["#{profile_name}"]
   end
 
   def gsub_string_in_file(target_file, target_string, replace_string)
