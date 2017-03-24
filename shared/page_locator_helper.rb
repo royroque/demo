@@ -5,18 +5,27 @@ module ElementLocatorHelper
   Watir::HTMLElement.attributes << :refvarname
   Watir::HTMLElement.attributes << :uib_tooltip
   Watir::HTMLElement.attributes << :ng_model
-
-  
+  Watir::HTMLElement.attributes << :ng_click
   
   ## BUTTON
   def button_text_click(text,el=browser)
-    el.button(:text=>text).wait_until_present
-    el.button(:text=>text).click
+    el.button(:text=>/#{text}/).wait_until_present
+    el.button(:text=>/#{text}/).click
+  end
+
+  def button_id_click(text,el=browser)
+    el.button(:id=>/#{text}/).wait_until_present
+    el.button(:id=>/#{text}/).click
   end
 
   def button_text_onclick(text,el=browser)
-    el.button(:text=>text).wait_until_present
-    el.button(:text=>text).fire_event :click
+    el.button(:text=>/#{text}/).wait_until_present
+    el.button(:text=>/#{text}/).fire_event :click
+  end
+
+  def button_id_onclick(text,el=browser)
+    el.button(:id=>/#{text}/).wait_until_present
+    el.button(:id=>/#{text}/).fire_event :click
   end
 
 
@@ -67,6 +76,12 @@ module ElementLocatorHelper
   def date_field_parent_label(label_name , date)
     date.gsub!('/','-')
     text_field_parent_label(label_name , date)
+  end
+
+  ## (TEXT FIELD) DATE FIELD
+  def date_field_grandparent_label(label_name , date)
+    date.gsub!('/','-')
+    text_field_grandparent_label(label_name , date)
   end
   
   ## (TEXT FIELD) TAX NUMBER
@@ -184,6 +199,20 @@ module ElementLocatorHelper
     #browser.label(:text=>/#{label_name}/).parent.text_field.set text_pattern
     browser.li(:text=>text_pattern).when_present.click rescue nil    
   end
+
+
+  ## ANGULAR SEARCH BOX
+  def search_parent_label(label,pattern)
+    browser.label(:text=>/#{label}/).parent.span(:ng_click=>/activate/).wait_until_present.click
+    browser.label(:text=>/#{label}/).parent.text_fields[0].wait_until_present.set pattern
+    browser.div(:text=>pattern).wait_until_present.click
+  end
+
+  def search_grandparent_label(label,pattern)
+    browser.label(:text=>/#{label}/).parent.parent.span(:ng_click=>/activate/).wait_until_present.click
+    browser.label(:text=>/#{label}/).parent.parent.text_fields[0].wait_until_present.set pattern
+    browser.div(:text=>pattern).wait_until_present.click
+  end
    
   
   ## SELECT LIST
@@ -203,8 +232,8 @@ module ElementLocatorHelper
     end
   end
   
-  def select_pulldown_parent_label(label_name, text_pattern,el=browser)
-    element=el.label(:text => /#{label_name}/).parent.select_list
+  def select_list_grandparent_label(label_name, text_pattern,el=browser)
+    element=el.label(:text => /#{label_name}/).parent.parent.select_list
     unless element.selected?(text_pattern)
       sleep 1
       element.select text_pattern
