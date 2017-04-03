@@ -1,4 +1,4 @@
-# thehill
+# DEMO
 API and UI Framework
   
 ## ADD NEW TEST SUITE:
@@ -13,7 +13,7 @@ API and UI Framework
 
 ## EXECUTE TEST MANUALLY
     in spec folder, run with rspec (with or without )
-      rpsec dashboard_spec.rb -e 'task_desc'
+      rpsec dashboard_spec.rb -e 'taskbar'
 
 ## RAKE: 
     RAKEFILE: (modify task default line)

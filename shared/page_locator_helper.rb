@@ -6,6 +6,7 @@ module ElementLocatorHelper
   Watir::HTMLElement.attributes << :uib_tooltip
   Watir::HTMLElement.attributes << :ng_model
   Watir::HTMLElement.attributes << :ng_click
+  Watir::HTMLElement.attributes << :ng_bind_html
   
   ## BUTTON
   def button_text_click(text,el=browser)
@@ -28,86 +29,93 @@ module ElementLocatorHelper
     el.button(:id=>/#{text}/).fire_event :click
   end
 
+  def button_uib_tooltip_click(text,el=browser)
+    el.button(:uib_tooltip=>/#{text}/).wait_until_present
+    el.button(:uib_tooltip=>/#{text}/).click
+  end
+
+  def button_uib_tooltip_onclick(text,el=browser)
+    el.button(:uib_tooltip=>/#{text}/).wait_until_present
+    el.button(:uib_tooltip=>/#{text}/).fire_event :click
+  end
+
+
 
   ## TEXT FIELD
-  def text_field_id(label_name , text_pattern,el=browser)
+  def text_field_id(label_name,text_pattern,el=browser)
     el.text_field(:id => /#{label_name}/).wait_until_present
     element=el.text_field(:id => /#{label_name}/)
     if element.value != text_pattern
       element.set text_pattern
-      element.send_keys :tab if el.table(:class=>'ui-datepicker-calendar').present?
     end
   end
   
-  def text_field_name(label_name , text_pattern,el=browser)
+  def text_field_name(label_name,text_pattern,el=browser)
     el.text_field(:name => /#{label_name}/).wait_until_present
     element=el.text_field(:name => /#{label_name}/)
     if element.value != text_pattern
       element.set text_pattern
-      element.send_keys :tab if el.table(:class=>'ui-datepicker-calendar').present?
     end
   end
   
-  def text_field_parent_label(label_name , text_pattern,el=browser)
+  def text_field_parent_label(label_name,text_pattern,el=browser)
     el.label(:text => /#{label_name}/).wait_until_present
     element=el.label(:text => /#{label_name}/)
     if element.parent.text_field.value != text_pattern
       element.parent.text_field.set text_pattern
-      element.parent.text_field.send_keys :tab if el.table(:class=>'ui-datepicker-calendar').present?
     end
   end
 
-  def text_field_grandparent_label(label_name , text_pattern,el=browser)
+  def text_field_grandparent_label(label_name,text_pattern,el=browser)
     el.label(:text => /#{label_name}/).wait_until_present
     element=el.label(:text => /#{label_name}/)
     if element.parent.parent.text_field.value != text_pattern
       element.parent.parent.text_field.set text_pattern
-      element.parent.parent.text_field.send_keys :tab if el.table(:class=>'ui-datepicker-calendar').present?
     end
   end
     
   ## (TEXT FIELD) DATE FIELD
-  def date_field_id(label_name , date)
+  def date_field_id(label_name,date,el=browser)
     date.gsub!('/','-')
-    text_field_id(label_name , date)
+    text_field_id(label_name,date,el)
   end
   
   ## (TEXT FIELD) DATE FIELD
-  def date_field_parent_label(label_name , date)
+  def date_field_parent_label(label_name,date,el=browser)
     date.gsub!('/','-')
-    text_field_parent_label(label_name , date)
+    text_field_parent_label(label_name , date,el)
   end
 
   ## (TEXT FIELD) DATE FIELD
-  def date_field_grandparent_label(label_name , date)
+  def date_field_grandparent_label(label_name,date,el=browser)
     date.gsub!('/','-')
-    text_field_grandparent_label(label_name , date)
+    text_field_grandparent_label(label_name , date,el)
   end
   
   ## (TEXT FIELD) TAX NUMBER
-  def tax_number_parent_label(label_name , tax_num)
+  def tax_number_parent_label(label_name,tax_num,el=browser)
     ##tax field 12-3456789
     tax_num.gsub!('-','')
-    text_field_parent_label(label_name , tax_num)
+    text_field_parent_label(label_name , tax_num,el)
   end
   
   ## (TEXT FIELD) PHONE NUMBER
-  def phone_number_parent_label(label_name , phone_num)
+  def phone_number_parent_label(label_name,phone_num,el=browser)
     ##1 text field for (012)345-6789
     phone_num.gsub!('-','')
     phone_num.gsub!('(','')
     phone_num.gsub!(')','')
-    text_field_parent_label(label_name , phone_num)
+    text_field_parent_label(label_name , phone_num,el)
   end
  
   ## (TEXT FIELD) PHONE NUMBER
-  def phone_with_area_code_parent_label(label_name , phone_num)
+  def phone_with_area_code_parent_label(label_name,phone_num,el=browser)
     #2 text fields: (012) and 345-6789
     phone_num.gsub!('-','')
     phone_num.gsub!('(','')
     phone_num.gsub!(')','')
-    browser.label(:text => /#{label_name}/).wait_until_present
-    element=browser.label(:text => /#{label_name}/)
+    el.label(:text => /#{label_name}/).wait_until_present
+    element=el.label(:text => /#{label_name}/)
     element.parent.text_fields[0].set phone_num[0..2]
     element.parent.text_fields[1].set phone_num[3..9]
   end
@@ -119,7 +127,6 @@ module ElementLocatorHelper
     element=el.textarea(:id => /#{label_name}/)
     if element.value != text_pattern
       element.set text_pattern
-      element.send_keys :tab if el.table(:class=>'ui-datepicker-calendar').present?
     end
   end
   
@@ -128,7 +135,6 @@ module ElementLocatorHelper
     element=el.textarea(:name => /#{label_name}/)
     if element.value != text_pattern
       element.set text_pattern
-      element.send_keys :tab if el.table(:class=>'ui-datepicker-calendar').present?
     end
   end
   
@@ -137,7 +143,6 @@ module ElementLocatorHelper
     element=el.label(:text => /#{label_name}/)
     if element.parent.textarea.value != text_pattern
       element.parent.textarea.set text_pattern
-      element.parent.textarea.send_keys :tab if el.table(:class=>'ui-datepicker-calendar').present?
     end
   end
 
@@ -146,7 +151,6 @@ module ElementLocatorHelper
     element=el.label(:text => /#{label_name}/)
     if element.parent.parent.textarea.value != text_pattern
       element.parent.parent.textarea.set text_pattern
-      element.parent.parent.textarea.send_keys :tab if el.table(:class=>'ui-datepicker-calendar').present?
     end
   end
   
@@ -203,15 +207,15 @@ module ElementLocatorHelper
 
   ## ANGULAR SEARCH BOX
   def search_parent_label(label,pattern)
-    browser.label(:text=>/#{label}/).parent.span(:ng_click=>/activate/).wait_until_present.click
+    browser.label(:text=>/#{label}/).parent.span(:ng_click=>/activate/).wait_until_present(60).click
     browser.label(:text=>/#{label}/).parent.text_fields[0].wait_until_present.set pattern
-    browser.div(:text=>pattern).wait_until_present.click
+    browser.div(:ng_bind_html=>/option.label/, :text=>/#{pattern}/).wait_until_present.click
   end
 
   def search_grandparent_label(label,pattern)
     browser.label(:text=>/#{label}/).parent.parent.span(:ng_click=>/activate/).wait_until_present.click
     browser.label(:text=>/#{label}/).parent.parent.text_fields[0].wait_until_present.set pattern
-    browser.div(:text=>pattern).wait_until_present.click
+    browser.div(:ng_bind_html=>/option.label/ , :text=>/#{pattern}/).wait_until_present.click
   end
    
   
@@ -343,8 +347,7 @@ module ElementLocatorHelper
     # unless element.checked?
       # sleep 1
       element.set
-    # end
-    
+    # end    
   end
   
   def checkbox_parent_label_clear(label_name,el=browser)
@@ -353,8 +356,7 @@ module ElementLocatorHelper
     # if element.checked?
       # sleep 1
       element.clear
-    # end
-    
+    # end    
   end
   
   def checkbox_parent_span_set(label_name,el=browser)
@@ -363,8 +365,7 @@ module ElementLocatorHelper
     # unless element.checked?
       # sleep 1
       element.set
-    # end
-    
+    # end    
   end
   
   def checkbox_parent_span_clear(label_name,el=browser)
@@ -373,9 +374,25 @@ module ElementLocatorHelper
     # unless element.checked?
       # sleep 1
       element.clear
-    # end
-    
+    # end    
   end
+
+  def checkbox_ng_model_set(label_name,el=browser)
+    element=el.checkbox(:ng_model => /#{label_name}/).wait_until_present
+    # unless element.checked?
+      # sleep 1
+      element.set
+    # end   
+  end
+
+  def bcheckbox_ng_model_clear(label_name,el=browser)
+    element=el.checkbox(:ng_model => /#{label_name}/).wait_until_present
+    # unless element.checked?
+      # sleep 1
+      element.clear
+    # end   
+  end
+
 
 
   ## LINKS

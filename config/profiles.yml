@@ -4,5 +4,6 @@ default: &default
   :uiport: '9014'
 auto1:
   <<: *default  
-  :name: 'Blah!23'
-  :loginId: 'blah'
+  :name: 'John Doe'
+  :loginId: 'jdoe'
+  :password: 'Pa$$w0rd1'  
