@@ -8,15 +8,95 @@ module ElementLocatorHelper
   Watir::HTMLElement.attributes << :ng_click
   Watir::HTMLElement.attributes << :ng_bind_html
   
-  ## BUTTON
-  def button_text_click(text,el=browser)
-    el.button(:text=>/#{text}/).wait_until_present
-    el.button(:text=>/#{text}/).click
+
+  ################################################################
+  ## LINKS
+  def link_id_click(id,el=browser)
+    el.link(:id=>id).wait_until_present
+    el.link(:id=>id).click    
   end
 
+  def link_id_onclick(id,el=browser)
+    el.link(:id=>id).wait_until_present
+    el.link(:id=>id).fire_event('onclick')    
+  end
+
+  def link_text_click(id,el=browser)
+    el.link(:text=>/#{id}/).wait_until_present
+    el.link(:text=>/#{id}/).click    
+  end
+  
+  def link_text_onclick(id,el=browser)
+    el.link(:text=>/#{id}/).wait_until_present
+    el.link(:text=>/#{id}/).fire_event('onclick')    
+  end
+
+  def link_name_click(id,el=browser)
+    el.link(:name=>id).wait_until_present
+    el.link(:name=>id).click    
+  end
+
+  def link_name_onclick(id,el=browser)
+    el.link(:name=>id).wait_until_present
+    el.link(:name=>id).fire_event('onclick')    
+  end
+
+  def link_class_click(id,el=browser)
+    el.link(:class=>id).wait_until_present
+    el.link(:class=>id).fire_event('onclick')    
+  end
+
+  def link_class_onclick(id,el=browser)
+    el.link(:class=>id).wait_until_present
+    el.link(:class=>id).fire_event('onclick')    
+  end
+ 
+  def link_title_click(id,el=browser)
+    el.link(:title=>id).wait_until_present
+    el.link(:title=>id).fire_event('onclick')    
+  end
+  
+  def link_title_onclick(id,el=browser)
+    el.link(:title=>id).wait_until_present
+    el.link(:title=>id).fire_event('onclick')    
+  end
+
+
+  ################################################################
+  ## BUTTON
   def button_id_click(text,el=browser)
     el.button(:id=>/#{text}/).wait_until_present
     el.button(:id=>/#{text}/).click
+  end
+
+  def button_id_onclick(text,el=browser)
+    el.button(:id=>/#{text}/).wait_until_present
+    el.button(:id=>/#{text}/).fire_event :click
+  end
+
+  def button_name_click(text,el=browser)
+    el.button(:name=>/#{text}/).wait_until_present
+    el.button(:name=>/#{text}/).click
+  end
+
+  def button_name_onclick(text,el=browser)
+    el.button(:name=>/#{text}/).wait_until_present
+    el.button(:name=>/#{text}/).fire_event :click
+  end
+
+  def button_class_click(text,el=browser)
+    el.button(:class=>/#{text}/).wait_until_present
+    el.button(:class=>/#{text}/).click
+  end
+
+  def button_class_onclick(text,el=browser)
+    el.button(:class=>/#{text}/).wait_until_present
+    el.button(:class=>/#{text}/).fire_event :click
+  end
+
+  def button_text_click(text,el=browser)
+    el.button(:text=>/#{text}/).wait_until_present
+    el.button(:text=>/#{text}/).click
   end
 
   def button_text_onclick(text,el=browser)
@@ -24,9 +104,14 @@ module ElementLocatorHelper
     el.button(:text=>/#{text}/).fire_event :click
   end
 
-  def button_id_onclick(text,el=browser)
-    el.button(:id=>/#{text}/).wait_until_present
-    el.button(:id=>/#{text}/).fire_event :click
+  def button_value_click(text,el=browser)
+    el.button(:value=>/#{text}/).wait_until_present
+    el.button(:value=>/#{text}/).click
+  end
+
+  def button_value_onclick(text,el=browser)
+    el.button(:value=>/#{text}/).wait_until_present
+    el.button(:value=>/#{text}/).fire_event :click
   end
 
   def button_uib_tooltip_click(text,el=browser)
@@ -38,9 +123,15 @@ module ElementLocatorHelper
     el.button(:uib_tooltip=>/#{text}/).wait_until_present
     el.button(:uib_tooltip=>/#{text}/).fire_event :click
   end
+  
+  ## BUTTON-SPAN
+  def span_button_text_click(text,el=browser)
+    # browser.div(:id=>'ApprTitleExp').span(:class=>'ui-button-text',:text=>'Edit').parent.click
+    el.span(:class=>'ui-button-text',:text=>/#{text}/).wait_until_present
+    el.span(:class=>'ui-button-text',:text=>/#{text}/).click        
+  end
 
-
-
+  ################################################################
   ## TEXT FIELD
   def text_field_id(label_name,text_pattern,el=browser)
     el.text_field(:id => /#{label_name}/).wait_until_present
@@ -53,6 +144,14 @@ module ElementLocatorHelper
   def text_field_name(label_name,text_pattern,el=browser)
     el.text_field(:name => /#{label_name}/).wait_until_present
     element=el.text_field(:name => /#{label_name}/)
+    if element.value != text_pattern
+      element.set text_pattern
+    end
+  end
+
+  def text_field_class(label_name,text_pattern,el=browser)
+    el.text_field(:class => /#{label_name}/).wait_until_present
+    element=el.text_field(:class => /#{label_name}/)
     if element.value != text_pattern
       element.set text_pattern
     end
@@ -121,6 +220,7 @@ module ElementLocatorHelper
   end
 
 
+  ################################################################
   ## TEXTAREA
   def textarea_id(label_name , text_pattern,el=browser)
     el.textarea(:id => /#{label_name}/).wait_until_present
@@ -133,6 +233,14 @@ module ElementLocatorHelper
   def textarea_name(label_name , text_pattern,el=browser)
     el.textarea(:name => /#{label_name}/).wait_until_present
     element=el.textarea(:name => /#{label_name}/)
+    if element.value != text_pattern
+      element.set text_pattern
+    end
+  end
+
+  def textarea_class(label_name , text_pattern,el=browser)
+    el.textarea(:class => /#{label_name}/).wait_until_present
+    element=el.textarea(:class => /#{label_name}/)
     if element.value != text_pattern
       element.set text_pattern
     end
@@ -153,117 +261,10 @@ module ElementLocatorHelper
       element.parent.parent.textarea.set text_pattern
     end
   end
-  
-  
-  ## COMBOBOX
-  def combobox_id(label_name, text_pattern)
-    browser.text_field(:id=>/#{label_name}/).wait_until_present    
-    element=browser.text_field(:id=>/#{label_name}/)
-    if element.value != text_pattern
-      element.send_keys [:control,'a'], :backspace
-      element.set text_pattern      
-      browser.li(:text=>/^#{text_pattern.split('').join('.*')}/i).when_present.click rescue nil
-    end
-  end
-
-  def combobox_customname(label_name, text_pattern,el=browser)
-    el.text_field(:customname=>/#{label_name}/).wait_until_present
-    element=el.text_field(:customname=>/#{label_name}/)
-    if element.value != text_pattern
-      element.send_keys [:control,'a'], :backspace
-      element.set text_pattern
-      browser.li(:text=>/^#{text_pattern.split('').join('.*')}/i).when_present.click rescue nil
-    end   
-  end
-   
-  def combobox_parent_label (label_name, text_pattern)
-    browser.label(:text => /#{label_name}/).wait_until_present
-    element=browser.label(:text => /#{label_name}/)
-    if element.parent.text_field.value != text_pattern
-      element.parent.text_field.send_keys [:control,'a'], :backspace
-      element.parent.text_field.set text_pattern
-      browser.li(:text=>/^#{text_pattern.split('').join('.*')}/i).when_present.click rescue nil
-    end
-  end
-  
-  def combobox_grandparent_label (label_name, text_pattern)
-    browser.label(:text => /#{label_name}/).wait_until_present
-    element=browser.label(:text => /#{label_name}/)
-    if element.parent.parent.text_field.value != text_pattern
-      element.parent.parent.text_field.send_keys [:control,'a'], :backspace
-      element.parent.parent.text_field.set text_pattern
-      browser.li(:text=>/^#{text_pattern.split('').join('.*')}/).when_present.click rescue nil
-    end
     
-  end
-
-  def combo_box_parent_label_click_link(label_name,text_pattern)
-    browser.label(:text=>/#{label_name}/).wait_until_present
-    browser.label(:text=>/#{label_name}/).parent.links[-1].click
-    #browser.label(:text=>/#{label_name}/).parent.text_field.set text_pattern
-    browser.li(:text=>text_pattern).when_present.click rescue nil    
-  end
-
-
-  ## ANGULAR SEARCH BOX
-  def search_parent_label(label,pattern)
-    browser.label(:text=>/#{label}/).parent.span(:ng_click=>/activate/).wait_until_present(60).click
-    browser.label(:text=>/#{label}/).parent.text_fields[0].wait_until_present.set pattern
-    browser.div(:ng_bind_html=>/option.label/, :text=>/#{pattern}/).wait_until_present.click
-  end
-
-  def search_grandparent_label(label,pattern)
-    browser.label(:text=>/#{label}/).parent.parent.span(:ng_click=>/activate/).wait_until_present.click
-    browser.label(:text=>/#{label}/).parent.parent.text_fields[0].wait_until_present.set pattern
-    browser.div(:ng_bind_html=>/option.label/ , :text=>/#{pattern}/).wait_until_present.click
-  end
-   
   
-  ## SELECT LIST
-  def select_list_id(label_name, text_pattern,el=browser)
-    element=el.select_list(:id => /#{label_name}/)
-    unless element.selected?(text_pattern)
-      sleep 1
-      element.select text_pattern
-    end
-  end
-  
-  def select_list_parent_label(label_name, text_pattern,el=browser)
-    element=el.label(:text => /#{label_name}/).parent.select_list
-    unless element.selected?(text_pattern)
-      sleep 1
-      element.select text_pattern
-    end
-  end
-  
-  def select_list_grandparent_label(label_name, text_pattern,el=browser)
-    element=el.label(:text => /#{label_name}/).parent.parent.select_list
-    unless element.selected?(text_pattern)
-      sleep 1
-      element.select text_pattern
-    end
-  end
-  
-  
-  ## RADIO  
-  def radio_value_set(label_name,el=browser)
-    element=el.radio(:value => /#{label_name}/)
-    element.wait_until_present
-    # unless element.checked?
-      # sleep 1
-      element.set
-    # end
-  end
-
-  def radio_value_clear(label_name,el=browser)
-    element=el.radio(:value => /#{label_name}/)
-    element.wait_until_present
-    # unless element.checked?
-      # sleep 1
-      element.clear
-    # end
-  end
-
+  ################################################################
+  ## RADIO
   def radio_id_set(label_name,el=browser)
     element=el.radio(:id => /#{label_name}/)
     element.wait_until_present
@@ -277,6 +278,60 @@ module ElementLocatorHelper
     element=el.radio(:id => /#{label_name}/)
     element.wait_until_present
     # if element.checked?
+      # sleep 1
+      element.clear
+    # end
+  end
+
+  def radio_name_set(label_name,el=browser)
+    element=el.radio(:name => /#{label_name}/)
+    element.wait_until_present
+    # unless element.checked?
+      # sleep 1
+      element.set
+    # end
+  end
+  
+  def radio_id_clear(label_name,el=browser)
+    element=el.radio(:name => /#{label_name}/)
+    element.wait_until_present
+    # if element.checked?
+      # sleep 1
+      element.clear
+    # end
+  end
+
+  def radio_class_set(label_name,el=browser)
+    element=el.radio(:class => /#{label_name}/)
+    element.wait_until_present
+    # unless element.checked?
+      # sleep 1
+      element.set
+    # end
+  end
+  
+  def radio_class_clear(label_name,el=browser)
+    element=el.radio(:class => /#{label_name}/)
+    element.wait_until_present
+    # if element.checked?
+      # sleep 1
+      element.clear
+    # end
+  end
+
+  def radio_value_set(label_name,el=browser)
+    element=el.radio(:value => /#{label_name}/)
+    element.wait_until_present
+    # unless element.checked?
+      # sleep 1
+      element.set
+    # end
+  end
+
+  def radio_value_clear(label_name,el=browser)
+    element=el.radio(:value => /#{label_name}/)
+    element.wait_until_present
+    # unless element.checked?
       # sleep 1
       element.clear
     # end
@@ -308,7 +363,6 @@ module ElementLocatorHelper
       element.set
     # end
   end
-
   
   def radio_parent_td_clear(label_name,index=0,el=browser)
     el.td(:text => /#{label_name}/).wait_until_present
@@ -319,7 +373,8 @@ module ElementLocatorHelper
     # end
   end
   
-  
+
+  ################################################################
   ## CHECKBOX
   def checkbox_id_set(label_name,el=browser)
     element=el.checkbox(:id => /#{label_name}/)
@@ -327,8 +382,7 @@ module ElementLocatorHelper
     # unless element.checked?
       # sleep 1
       element.set
-    # end
-    
+    # end    
   end
   
   def checkbox_id_clear(label_name,el=browser)
@@ -337,9 +391,45 @@ module ElementLocatorHelper
     # if element.checked?
       # sleep 1
       element.clear
-    # end
-    
+    # end    
   end
+  
+  def checkbox_name_set(label_name,el=browser)
+    element=el.checkbox(:name => /#{label_name}/)
+    element.wait_until_present
+    # unless element.checked?
+      # sleep 1
+      element.set
+    # end    
+  end
+  
+  def checkbox_name_clear(label_name,el=browser)
+    element=el.checkbox(:name => /#{label_name}/)
+    element.wait_until_present
+    # if element.checked?
+      # sleep 1
+      element.clear
+    # end    
+  end
+  
+  def checkbox_class_set(label_name,el=browser)
+    element=el.checkbox(:class => /#{label_name}/)
+    element.wait_until_present
+    # unless element.checked?
+      # sleep 1
+      element.set
+    # end    
+  end
+  
+  def checkbox_class_clear(label_name,el=browser)
+    element=el.checkbox(:class => /#{label_name}/)
+    element.wait_until_present
+    # if element.checked?
+      # sleep 1
+      element.clear
+    # end    
+  end
+
   
   def checkbox_parent_label_set(label_name,el=browser)
     el.label(:text => /#{label_name}/).wait_until_present
@@ -385,7 +475,7 @@ module ElementLocatorHelper
     # end   
   end
 
-  def bcheckbox_ng_model_clear(label_name,el=browser)
+  def checkbox_ng_model_clear(label_name,el=browser)
     element=el.checkbox(:ng_model => /#{label_name}/).wait_until_present
     # unless element.checked?
       # sleep 1
@@ -393,77 +483,135 @@ module ElementLocatorHelper
     # end   
   end
 
-
-
-  ## LINKS
-  def link_id_click(id,el=browser)
-    el.link(:id=>id).wait_until_present
-    el.link(:id=>id).click
-    
+  ################################################################
+  ## SELECT LIST
+  def select_list_id(label_name, text_pattern,el=browser)
+    element=el.select_list(:id => /#{label_name}/)
+    unless element.selected?(text_pattern)
+      sleep 1
+      element.select text_pattern
+    end
   end
 
-  def link_id_onclick(id,el=browser)
-    el.link(:id=>id).wait_until_present
-    el.link(:id=>id).fire_event('onclick')
-    
+  def select_list_name(label_name, text_pattern,el=browser)
+    element=el.select_list(:name => /#{label_name}/)
+    unless element.selected?(text_pattern)
+      sleep 1
+      element.select text_pattern
+    end
   end
 
-  def link_text_click(id,el=browser)
-    el.link(:text=>/#{id}/).wait_until_present
-    el.link(:text=>/#{id}/).click
-    
+  def select_list_class(label_name, text_pattern,el=browser)
+    element=el.select_list(:class => /#{label_name}/)
+    unless element.selected?(text_pattern)
+      sleep 1
+      element.select text_pattern
+    end
+  end 
+  
+  def select_list_parent_label(label_name, text_pattern,el=browser)
+    element=el.label(:text => /#{label_name}/).parent.select_list
+    unless element.selected?(text_pattern)
+      sleep 1
+      element.select text_pattern
+    end
   end
   
-  def link_text_onclick(id,el=browser)
-    el.link(:text=>/#{id}/).wait_until_present
-    el.link(:text=>/#{id}/).fire_event('onclick')
-    
+  def select_list_grandparent_label(label_name, text_pattern,el=browser)
+    element=el.label(:text => /#{label_name}/).parent.parent.select_list
+    unless element.selected?(text_pattern)
+      sleep 1
+      element.select text_pattern
+    end
   end
 
-  def link_name_click(id,el=browser)
-    el.link(:name=>id).wait_until_present
-    el.link(:name=>id).click
-    
+
+  ################################################################
+  ## COMBOBOX (AUTOCOMPLETE)
+  def combobox_id(label_name, text_pattern,el=browser)
+    el.text_field(:id=>/#{label_name}/).wait_until_present    
+    element=el.text_field(:id=>/#{label_name}/)
+    if element.value != text_pattern
+      element.send_keys [:control,'a'], :backspace
+      element.set text_pattern      
+      browser.li(:text=>/^#{text_pattern.split('').join('.*')}/i).when_present.click rescue nil
+    end
   end
 
-  def link_name_onclick(id,el=browser)
-    el.link(:name=>id).wait_until_present
-    el.link(:name=>id).fire_event('onclick')
-    
+  def combobox_name(label_name, text_pattern,el=browser)
+    el.text_field(:name=>/#{label_name}/).wait_until_present    
+    element=el.text_field(:name=>/#{label_name}/)
+    if element.value != text_pattern
+      element.send_keys [:control,'a'], :backspace
+      element.set text_pattern      
+      browser.li(:text=>/^#{text_pattern.split('').join('.*')}/i).when_present.click rescue nil
+    end
   end
 
-  def link_class_click(id,el=browser)
-    el.link(:class=>id).wait_until_present
-    el.link(:class=>id).fire_event('onclick')
-    
+  def combobox_class(label_name, text_pattern,el=browser)
+    el.text_field(:class=>/#{label_name}/).wait_until_present    
+    element=el.text_field(:class=>/#{label_name}/)
+    if element.value != text_pattern
+      element.send_keys [:control,'a'], :backspace
+      element.set text_pattern      
+      browser.li(:text=>/^#{text_pattern.split('').join('.*')}/i).when_present.click rescue nil
+    end
   end
 
-  def link_class_onclick(id,el=browser)
-    el.link(:class=>id).wait_until_present
-    el.link(:class=>id).fire_event('onclick')
-    
+  def combobox_customname(label_name, text_pattern,el=browser)
+    el.text_field(:customname=>/#{label_name}/).wait_until_present
+    element=el.text_field(:customname=>/#{label_name}/)
+    if element.value != text_pattern
+      element.send_keys [:control,'a'], :backspace
+      element.set text_pattern
+      browser.li(:text=>/^#{text_pattern.split('').join('.*')}/i).when_present.click rescue nil
+    end   
+  end
+   
+  def combobox_parent_label (label_name, text_pattern)
+    browser.label(:text => /#{label_name}/).wait_until_present
+    element=browser.label(:text => /#{label_name}/)
+    if element.parent.text_field.value != text_pattern
+      element.parent.text_field.send_keys [:control,'a'], :backspace
+      element.parent.text_field.set text_pattern
+      browser.li(:text=>/^#{text_pattern.split('').join('.*')}/i).when_present.click rescue nil
+    end
+  end
+  
+  def combobox_grandparent_label (label_name, text_pattern)
+    browser.label(:text => /#{label_name}/).wait_until_present
+    element=browser.label(:text => /#{label_name}/)
+    if element.parent.parent.text_field.value != text_pattern
+      element.parent.parent.text_field.send_keys [:control,'a'], :backspace
+      element.parent.parent.text_field.set text_pattern
+      browser.li(:text=>/^#{text_pattern.split('').join('.*')}/).when_present.click rescue nil
+    end    
+  end
+
+  def combo_box_parent_label_click_link(label_name,text_pattern)
+    browser.label(:text=>/#{label_name}/).wait_until_present
+    browser.label(:text=>/#{label_name}/).parent.links[-1].click
+    #browser.label(:text=>/#{label_name}/).parent.text_field.set text_pattern
+    browser.li(:text=>text_pattern).when_present.click rescue nil    
   end
  
-  def link_title_click(id,el=browser)
-    el.link(:title=>id).wait_until_present
-    el.link(:title=>id).fire_event('onclick')
-    
-  end
-  
-  def link_title_onclick(id,el=browser)
-    el.link(:title=>id).wait_until_present
-    el.link(:title=>id).fire_event('onclick')
-    
+
+  ################################################################
+  ## ANGULAR SEARCH BOX (AUTOCOMPLETE)
+  def search_parent_label(label,pattern)
+    browser.label(:text=>/#{label}/).parent.span(:ng_click=>/activate/).wait_until_present(60).click
+    browser.label(:text=>/#{label}/).parent.text_fields[0].wait_until_present.set pattern
+    browser.div(:ng_bind_html=>/option.label/, :text=>/#{pattern}/).wait_until_present.click
   end
 
-  ## SPAN
-  def span_button_text_click(text,el=browser)
-    # browser.div(:id=>'ApprTitleExp').span(:class=>'ui-button-text',:text=>'Edit').parent.click
-    el.span(:class=>'ui-button-text',:text=>/#{text}/).wait_until_present
-    el.span(:class=>'ui-button-text',:text=>/#{text}/).click
-        
+  def search_grandparent_label(label,pattern)
+    browser.label(:text=>/#{label}/).parent.parent.span(:ng_click=>/activate/).wait_until_present.click
+    browser.label(:text=>/#{label}/).parent.parent.text_fields[0].wait_until_present.set pattern
+    browser.div(:ng_bind_html=>/option.label/ , :text=>/#{pattern}/).wait_until_present.click
   end
 
+
+  ################################################################
   ## ACTION MENU
   def actionmenu_parent_td(text_pattern,action,el=browser)
     ## el could be:  ,el=browser.div(:id=>/taskManagmnt/)
@@ -510,11 +658,11 @@ module ElementLocatorHelper
     ## DONT KNOW WHY BUT action needs to be in regex even if it contains the whole word; so dont change below.
     
     # browser.link(:text=>/#{action}/).when_present.flash
-    browser.link(:text=>/#{action}/).when_present.fire_event :click
-    
+    browser.link(:text=>/#{action}/).when_present.fire_event :click    
   end
 
 
+  ################################################################
   ## Rich Text Format (rtf)
   def rtf_parent_label(label_name,comment,el=browser)
     ##i.e. comment=@risk_mitigant[:comments_source]
@@ -540,6 +688,8 @@ module ElementLocatorHelper
     
   end
 
+
+  ################################################################
   ## FOLDERTREE
   def foldertree_folder_span_text(text,el=browser)
     browser.div(:class=>'RepoFolderTreeClass').wait_until_present
