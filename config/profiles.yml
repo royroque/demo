@@ -1,9 +1,9 @@
+#loaded in config/ui-api/project_cfg.rb
 default: &default  
   :host: 'http://localhost'
-  :port: '9000'
-  :uiport: '9014'
+  :port: '80'
+  :uiport: '8080'
 auto1:
-  <<: *default  
-  :name: 'John Doe'
-  :loginId: 'jdoe'
-  :password: 'Pa$$w0rd1'  
+  <<: *default
+  :host: 'http://google.com'
+

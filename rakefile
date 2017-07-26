@@ -13,7 +13,7 @@ begin
     t.pattern = Dir.glob("spec/**/#{product}_spec.rb")
     t.rspec_opts = "--format documentation -o ./logs/#{product}.log --format html --out ./logs/#{product}.html --require yarjuf --format JUnit  --out ./logs/#{product}.xml"
   end
-     
+
   task :default => :regression
   task :regression => [:template]
   
