@@ -7,7 +7,7 @@ module TemplateConfig
       @template[:host]=ENV['URL']
       @template[:port]=ENV['PORT']
     else 
-      @template=YAML.load_file(File.expand_path(File.dirname(__FILE__)+"/../../config/profiles.yml"))["auto1"]
+      @template=YAML.load_file(File.expand_path(File.dirname(__FILE__)+"/../profiles.yml"))["auto1"]
     end
     @template=YAML.load_file(File.expand_path(File.dirname(__FILE__)+"/yml/template.yml"))["auto1"]
   end
