@@ -4,8 +4,8 @@ module TemplateConfig
     @timenow = Time.now.strftime('%m%d_%H%M')
     
     unless ENV['URL'].nil?
-      @rest_obj[:host]=ENV['URL']
-      @rest_obj[:port]=ENV['PORT']
+      @template[:host]=ENV['URL']
+      @template[:port]=ENV['PORT']
     else 
       @template=YAML.load_file(File.expand_path(File.dirname(__FILE__)+"/../../config/profiles.yml"))["auto1"]
     end
