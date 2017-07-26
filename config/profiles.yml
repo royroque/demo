@@ -1,3 +1,4 @@
+#loaded in config/ui-api/project_cfg.rb
 default: &default  
   :host: 'http://localhost'
   :port: '9000'
