@@ -9,7 +9,7 @@ module TemplateConfig
     else 
       @template=YAML.load_file(File.expand_path(File.dirname(__FILE__)+"/../profiles.yml"))["auto1"]
     end
-    @template=YAML.load_file(File.expand_path(File.dirname(__FILE__)+"/yml/template.yml"))["auto1"]
+    @template.update(YAML.load_file(File.expand_path(File.dirname(__FILE__)+"/yml/template.yml"))["auto1"])
   end
   
 end
