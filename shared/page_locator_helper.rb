@@ -7,7 +7,7 @@ module ElementLocatorHelper
   Watir::HTMLElement.attributes << :ng_model
   Watir::HTMLElement.attributes << :ng_click
   Watir::HTMLElement.attributes << :ng_bind_html
-  
+  Watir::HTMLElement.attributes << :ng_reflect_model
 
   ################################################################
   ## LINKS
