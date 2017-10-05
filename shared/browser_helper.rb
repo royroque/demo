@@ -113,7 +113,7 @@ module BrowserHelper
   
   def take_screenshot
     puts __method__
-    Dir.mkdir ('../logs') unless File.exists?('../logs')
+    Dir.mkdir (File.expand_path(File.dirname(__FILE__)+"/../logs")) unless File.exists?(File.expand_path(File.dirname(__FILE__)+"/../logs"))
     filename = File.expand_path(File.dirname(__FILE__)+"/../logs/#{Time.now.strftime('%m%d%y_%H%M%S')}.png")
     browser.screenshot.save filename
     sleep 1
