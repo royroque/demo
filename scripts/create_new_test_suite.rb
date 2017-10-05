@@ -64,7 +64,7 @@ FileUtils.cp(@source_file, @target_file)
     STDOUT.sync = true
     t.fail_on_error = false
     product = "TEMPLATE"
-    t.pattern = Dir.glob("spec/#{@spec_type}/#{product}_spec.rb")
+    t.pattern = Dir.glob("spec/TEMPLATE_TYPE/#{product}_spec.rb")
     t.rspec_opts = "--format documentation -o ./logs/#{product}.log --format html --out ./logs/#{product}.html --require yarjuf --format JUnit  --out ./logs/#{product}.xml"
   end
  
@@ -72,5 +72,6 @@ FileUtils.cp(@source_file, @target_file)
 @source_file=File.expand_path(File.dirname(__FILE__) +'/../rakefile')
 text=File.read(@source_file)
 text.gsub!('task :default => :regression',@new_rakefile_section) #Added new section
-text.gsub!('TEMPLATE',@suite_name) #replace TEMPLATE WITH SUITENAME
+text.gsub!('TEMPLATE',@suite_name) #replace TEMPLATE WITH @suite_name
+text.gsub!('TEMPLATE_TYPE',@spec_type) #replace TEMPLATE_TYPE WITH @spec_type
 File.open(@source_file,'w') {|f| f.puts text}
