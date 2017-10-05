@@ -4,13 +4,15 @@ require_relative '../../lib/ui/template_helper'
 
 describe "Template Test Suites" do
 
-  before(:each) do
+  before(:all) do
     open_browser
     initialize_instance_variables
     # login_to_application
   end
   after(:each) do |tc|
-    take_screenshot if (tc.exception != nil || tc.instance_variable_get("@exception") != nil )
+    take_screenshot if (tc.exception != nil || tc.instance_variable_get("@exception") != nil )    
+  end
+  after(:all) do
     close_all_windows
   end
 
