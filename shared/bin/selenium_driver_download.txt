@@ -3,8 +3,10 @@ selenium drivers:
 chrome (32):
 	(BINARY) : https://www.google.com/chrome/browser/desktop/index.html
 	http://docs.seleniumhq.org/download/
+	https://www.slimjet.com/chrome/google-chrome-old-version.php
 internet explorer (32): 
 	(BINARY ; ALWAYS USE ESR) : https://www.mozilla.org/en-US/firefox/organizations/
 	http://docs.seleniumhq.org/download/
 firefox (32):
 	https://github.com/mozilla/geckodriver/releases
+	https://ftp.mozilla.org/pub/firefox/releases/
